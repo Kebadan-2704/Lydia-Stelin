@@ -47,7 +47,7 @@ export default function VenueSection() {
           whileHover={{ scale: 1.03 }}
           transition={{ duration: 0.5 }}
         >
-          <img src="/images/venue.png" alt="Lotus Mahal, Coimbatore" />
+          <img src="/images/venue.png" alt="Lotus Mahal, Coimbatore" loading="lazy" decoding="async" />
         </motion.div>
 
         <div className="venue-info">

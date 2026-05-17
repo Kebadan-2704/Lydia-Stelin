@@ -82,7 +82,7 @@ export default function CoupleSection() {
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           style={{ perspective: '1000px' }}
         >
-          <img src="/images/couple.png" alt="Lydia and Stelin" />
+          <img src="/images/couple.png" alt="Lydia and Stelin" loading="lazy" decoding="async" />
         </motion.div>
 
         <motion.p

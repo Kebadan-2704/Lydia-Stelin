@@ -1,19 +1,20 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import SplashScreen from './components/SplashScreen';
 import HeroSection from './components/HeroSection';
-import CountdownSection from './components/CountdownSection';
-import CoupleSection from './components/CoupleSection';
-import EventsSection from './components/EventsSection';
-import VenueSection from './components/VenueSection';
-import DressCodeSection from './components/DressCodeSection';
-import OfficiantSection from './components/OfficiantSection';
-import RSVPSection from './components/RSVPSection';
-import FooterSection from './components/FooterSection';
-import FloatingParticles from './components/FloatingParticles';
-import NoteSection from './components/NoteSection';
-import GallerySection from './components/GallerySection';
 import Navbar from './components/Navbar';
 import AudioPlayer from './components/AudioPlayer';
+
+const CountdownSection = lazy(() => import('./components/CountdownSection'));
+const CoupleSection = lazy(() => import('./components/CoupleSection'));
+const EventsSection = lazy(() => import('./components/EventsSection'));
+const VenueSection = lazy(() => import('./components/VenueSection'));
+const DressCodeSection = lazy(() => import('./components/DressCodeSection'));
+const OfficiantSection = lazy(() => import('./components/OfficiantSection'));
+const RSVPSection = lazy(() => import('./components/RSVPSection'));
+const FooterSection = lazy(() => import('./components/FooterSection'));
+const FloatingParticles = lazy(() => import('./components/FloatingParticles'));
+const NoteSection = lazy(() => import('./components/NoteSection'));
+const GallerySection = lazy(() => import('./components/GallerySection'));
 
 
 export default function App() {
@@ -25,20 +26,23 @@ export default function App() {
 
       {!showSplash && (
         <>
-          <FloatingParticles />
           <Navbar />
           <AudioPlayer />
           <HeroSection />
-          <CountdownSection />
-          <NoteSection />
-          <CoupleSection />
-          <EventsSection />
-          <OfficiantSection />
-          <DressCodeSection />
-          <VenueSection />
-          <RSVPSection />
-          <GallerySection />
-          <FooterSection />
+          
+          <Suspense fallback={<div style={{ height: '100vh' }}></div>}>
+            <FloatingParticles />
+            <CountdownSection />
+            <NoteSection />
+            <CoupleSection />
+            <EventsSection />
+            <OfficiantSection />
+            <DressCodeSection />
+            <VenueSection />
+            <RSVPSection />
+            <GallerySection />
+            <FooterSection />
+          </Suspense>
         </>
       )}
     </>

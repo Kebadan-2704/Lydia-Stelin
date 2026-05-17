@@ -328,3 +328,99 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ========== OFFICIANT RED BACKGROUND & HORIZONTAL LAYOUT ========== */
+.officiant-section {
+  background: var(--wine-deep) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.officiant-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url(/images/floral-pattern.png) 50% / 400px;
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+.officiant-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+.officiant-section .section-label,
+.officiant-section .officiant-name,
+.officiant-section .officiant-role {
+  color: var(--ivory) !important;
+}
+
+.officiant-section .officiant-title {
+  color: var(--champagne) !important;
+}
+
+.officiant-section .section-ornament {
+  background: linear-gradient(90deg, transparent, var(--ivory), transparent) !important;
+}
+
+.officiant-content {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 50px !important;
+}
+
+.officiant-detail {
+  display: flex !important;
+  align-items: center !important;
+  gap: 24px !important;
+  text-align: left !important;
+  margin-bottom: 0 !important;
+  flex-direction: row;
+}
+
+.officiant-detail.row-reverse {
+  flex-direction: row-reverse;
+  text-align: right !important;
+}
+
+.officiant-detail .officiant-image-wrapper {
+  margin: 0 !important;
+  flex-shrink: 0;
+  width: 120px !important;
+  height: 120px !important;
+  border-color: var(--champagne-dark) !important;
+}
+
+.officiant-detail-text {
+  flex: 1;
+}
+
+@media (min-width: 768px) {
+  .officiant-detail .officiant-image-wrapper {
+    width: 160px !important;
+    height: 160px !important;
+  }
+  .officiant-detail {
+    gap: 40px !important;
+  }
+}
+
+/* ========== FOOTER TEXT VISIBILITY ========== */
+.wedding-footer {
+  color: #ffffff !important;
+}
+
+.wedding-footer p,
+.wedding-footer .footer-contact-label,
+.wedding-footer .footer-names {
+  color: #ffffff !important;
+}
+
+.footer-names.gold-foil-text {
+  /* Override the gold foil if they explicitly want white, 
+     but let's just force the color to white and drop the background clip */
+  background: none !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+}

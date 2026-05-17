@@ -43,7 +43,7 @@ export default function NoteSection() {
     })
   };
 
-  const noteText = "We are so incredibly excited to celebrate our special day with our dearest family and friends. Thank you for your continued love, prayers, and support throughout our lives. We truly cannot wait to share this beautiful and holy moment with all of you as we begin our new journey together.";
+  const noteText = "We are so incredibly excited to celebrate our beloved daughter's special day with our dearest family and friends. Thank you for your continued love, prayers, and support throughout our lives. We truly cannot wait to share this beautiful and holy moment with all of you as they begin their new journey together.";
   const words = noteText.split(' ');
 
   return (
@@ -113,7 +113,7 @@ export default function NoteSection() {
           transition={{ duration: 1, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
           style={{ fontFamily: 'var(--font-display)', color: 'var(--champagne-dark)', fontSize: '0.75rem', textTransform: 'uppercase' }}
         >
-          With Love, Lydia & Stelin
+          With Love from the families of Mrs and Mr Ebinezer Nehamiah
         </motion.div>
       </div>
     </section>
