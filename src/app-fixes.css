@@ -10,6 +10,158 @@
   border: 0;
 }
 
+/* ========== TEXT VISIBILITY & SIZE BOOST ========== */
+
+/* Section labels ("RESPOND", "OUR VENUE", etc.) */
+.section-label {
+  font-size: clamp(0.72rem, 1.5vw, 0.85rem);
+  letter-spacing: 7px;
+  opacity: 1;
+}
+
+/* Section titles (script headings) */
+.section-title {
+  font-size: clamp(3rem, 7vw, 4.5rem);
+}
+
+/* Body / paragraph text */
+body {
+  font-size: 1.1rem;
+  line-height: 1.75;
+}
+
+/* Hero section */
+.hero-invitation-text {
+  font-size: clamp(0.75rem, 1.8vw, 1rem);
+  opacity: 1;
+}
+
+.hero-names {
+  font-size: clamp(4rem, 11vw, 7.5rem);
+}
+
+.hero-date {
+  font-size: clamp(0.85rem, 2vw, 1.15rem);
+  letter-spacing: 6px;
+}
+
+.hero-venue-text {
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  opacity: 1;
+}
+
+/* Countdown section */
+.countdown-heading {
+  font-size: clamp(2.2rem, 6vw, 3.5rem);
+}
+
+.countdown-number {
+  font-size: clamp(3rem, 7vw, 4.5rem);
+}
+
+.countdown-unit {
+  font-size: 0.75rem;
+  letter-spacing: 5px;
+}
+
+/* Couple section */
+.couple-verse {
+  font-size: clamp(1.2rem, 2.8vw, 1.7rem);
+  line-height: 1.9;
+}
+
+.couple-verse-ref {
+  font-size: 0.8rem;
+  letter-spacing: 4px;
+}
+
+/* Event cards */
+.event-time {
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+}
+
+.event-name {
+  font-size: 0.8rem;
+  letter-spacing: 5px;
+}
+
+.event-desc {
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+/* Venue section */
+.venue-name {
+  font-size: clamp(2rem, 4.5vw, 3rem);
+}
+
+.venue-location {
+  font-size: 1.3rem;
+}
+
+/* Dress code names */
+.dresscode-name {
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+}
+
+/* Officiant section */
+.officiant-name {
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+}
+
+.officiant-title {
+  font-size: 1.1rem;
+}
+
+.officiant-role {
+  font-size: 0.72rem;
+  letter-spacing: 5px;
+}
+
+/* RSVP form */
+.rsvp-input,
+.rsvp-select {
+  font-size: 1.1rem;
+  padding: 18px 24px;
+}
+
+.rsvp-submit {
+  font-size: 0.8rem;
+  letter-spacing: 5px;
+  padding: 18px 52px;
+}
+
+/* Footer */
+.footer-names {
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+}
+
+.footer-date {
+  font-size: 0.75rem;
+  letter-spacing: 5px;
+}
+
+.footer-hashtag {
+  font-size: 1rem;
+}
+
+.footer-made {
+  font-size: 0.9rem;
+}
+
+/* Nav links */
+.nav-link {
+  font-size: 0.72rem;
+  letter-spacing: 4px;
+}
+
+/* Scroll indicator */
+.scroll-text {
+  font-size: 0.65rem;
+  letter-spacing: 5px;
+}
+
 .rsvp-error {
   color: var(--champagne-light);
   background: rgba(255, 255, 255, 0.08);
