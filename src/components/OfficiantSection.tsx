@@ -16,10 +16,8 @@ export default function OfficiantSection() {
           whileInView={{ opacity: 1, letterSpacing: '6px' }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        >
           Solemnized By
         </motion.p>
-        <h2 className="section-title">God's Servants</h2>
         <motion.div
           className="section-ornament"
           initial={{ scaleX: 0 }}

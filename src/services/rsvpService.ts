@@ -1,6 +1,6 @@
 export interface RSVPFormData {
   name: string;
-  email: string;
+  phone: string;
   attending: 'yes' | 'no';
   guests: string;
   accommodation: 'yes' | 'no' | 'maybe';
@@ -20,7 +20,7 @@ export async function submitRsvpToGoogleSheets(formData: RSVPFormData) {
 
   const payload = new URLSearchParams();
   payload.append('name', formData.name.trim());
-  payload.append('email', formData.email.trim());
+  payload.append('phone', formData.phone.trim());
   payload.append('attending', formData.attending);
   payload.append('guests', formData.guests);
   payload.append('accommodation', formData.accommodation);

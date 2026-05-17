@@ -15,8 +15,9 @@ export default function FooterSection() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.2 }}
+          style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', lineHeight: 1.2 }}
         >
-          Lydia & Stelin
+          With Compliments from<br/>Richy and Suzanne
         </motion.p>
 
         <motion.div

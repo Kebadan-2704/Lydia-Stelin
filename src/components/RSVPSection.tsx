@@ -10,7 +10,7 @@ export default function RSVPSection() {
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState<RSVPFormData>({
     name: '',
-    email: '',
+    phone: '',
     attending: 'yes',
     guests: '1',
     accommodation: 'no',
@@ -100,15 +100,15 @@ export default function RSVPSection() {
                 required
               />
 
-              <label className="sr-only" htmlFor="rsvp-email">Email address</label>
+              <label className="sr-only" htmlFor="rsvp-phone">Phone number</label>
               <input
-                id="rsvp-email"
+                id="rsvp-phone"
                 className="rsvp-input"
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                autoComplete="email"
-                value={formData.email}
+                type="tel"
+                name="phone"
+                placeholder="Phone Number"
+                autoComplete="tel"
+                value={formData.phone}
                 onChange={handleChange}
               />
 

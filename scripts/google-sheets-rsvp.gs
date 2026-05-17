@@ -2,7 +2,7 @@ const SHEET_NAME = 'RSVPs';
 const HEADERS = [
   'Timestamp',
   'Name',
-  'Email',
+  'Phone',
   'Attending',
   'Guests',
   'Accommodation',
@@ -24,7 +24,7 @@ function doPost(e) {
     sheet.appendRow([
       new Date(),
       clean_(params.name),
-      clean_(params.email),
+      clean_(params.phone),
       clean_(params.attending),
       clean_(params.guests),
       clean_(params.accommodation),

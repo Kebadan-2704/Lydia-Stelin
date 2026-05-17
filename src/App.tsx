@@ -13,7 +13,6 @@ import FloatingParticles from './components/FloatingParticles';
 import NoteSection from './components/NoteSection';
 import GallerySection from './components/GallerySection';
 import Navbar from './components/Navbar';
-import BlessingsSection from './components/BlessingsSection';
 import AudioPlayer from './components/AudioPlayer';
 
 
@@ -33,13 +32,12 @@ export default function App() {
           <CountdownSection />
           <NoteSection />
           <CoupleSection />
-          <GallerySection />
           <EventsSection />
-          <VenueSection />
-          <DressCodeSection />
           <OfficiantSection />
+          <DressCodeSection />
+          <VenueSection />
           <RSVPSection />
-          <BlessingsSection />
+          <GallerySection />
           <FooterSection />
         </>
       )}
