@@ -39,6 +39,15 @@ export default function VenueSection() {
     return () => ctx.revert();
   }, []);
 
+  // Destination coordinates for Lotus Mahal (Kalampalayam, Coimbatore)
+  const destLat = '10.9572';
+  const destLng = '76.9068';
+  const destName = 'Lotus Mahal, Coimbatore';
+
+  const uberUrl = `https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=${destLat}&dropoff[longitude]=${destLng}&dropoff[nickname]=${encodeURIComponent(destName)}`;
+  const olaUrl = `https://book.olacabs.com/?lat=${destLat}&lng=${destLng}&drop_name=${encodeURIComponent(destName)}`;
+  const rapidoUrl = `https://rapido.link/app`; // Standard Rapido universal app deep link
+
   return (
     <section className="venue-section section" ref={sectionRef} id="venue">
       <div className="venue-content">
@@ -91,6 +100,7 @@ export default function VenueSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            style={{ marginBottom: '24px' }}
           >
             Coimbatore, Tamil Nadu
           </motion.p>
@@ -103,9 +113,10 @@ export default function VenueSection() {
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.7 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            style={{ marginBottom: '30px' }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
@@ -113,6 +124,110 @@ export default function VenueSection() {
             </svg>
             Get Directions
           </motion.a>
+
+          {/* Minimalist Rideshare Bookings bottom alignment */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            style={{ 
+              borderTop: '1px solid rgba(251,248,241,0.15)', 
+              paddingTop: '20px', 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              gap: '12px' 
+            }}
+          >
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.55rem', letterSpacing: '2px', color: 'rgba(251,248,241,0.5)', textTransform: 'uppercase' }}>
+              Book Ride directly to Venue
+            </span>
+            <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+              {/* Uber Rideshare Icon */}
+              <motion.a
+                href={uberUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.18, y: -3, boxShadow: '0 8px 25px rgba(0,0,0,0.5)' }}
+                whileTap={{ scale: 0.95 }}
+                title="Uber"
+                style={{
+                  borderRadius: '50%',
+                  width: '46px',
+                  height: '46px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textDecoration: 'none',
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+                  transition: 'transform 0.25s'
+                }}
+              >
+                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="12" fill="black"/>
+                  <text x="50%" y="54%" dominantBaseline="middle" textAnchor="middle" fill="white" style={{ fontFamily: 'system-ui, -apple-system, sans-serif', fontWeight: '800', fontSize: '7.2px', letterSpacing: '0.2px' }}>Uber</text>
+                </svg>
+              </motion.a>
+
+              {/* Ola Rideshare Icon */}
+              <motion.a
+                href={olaUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.18, y: -3, boxShadow: '0 8px 25px rgba(163,198,57,0.4)' }}
+                whileTap={{ scale: 0.95 }}
+                title="Ola"
+                style={{
+                  borderRadius: '50%',
+                  width: '46px',
+                  height: '46px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textDecoration: 'none',
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+                  transition: 'transform 0.25s'
+                }}
+              >
+                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  {/* Ola's official bright green and dark crescent circle badge */}
+                  <circle cx="12" cy="12" r="12" fill="#A3C639"/>
+                  <circle cx="12" cy="12" r="8" fill="black"/>
+                  <circle cx="10.2" cy="12" r="4.2" fill="#A3C639"/>
+                </svg>
+              </motion.a>
+
+              {/* Rapido Rideshare Icon */}
+              <motion.a
+                href={rapidoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.18, y: -3, boxShadow: '0 8px 25px rgba(246,196,0,0.4)' }}
+                whileTap={{ scale: 0.95 }}
+                title="Rapido"
+                style={{
+                  borderRadius: '50%',
+                  width: '46px',
+                  height: '46px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textDecoration: 'none',
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+                  transition: 'transform 0.25s'
+                }}
+              >
+                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  {/* Rapido's official vibrant yellow and black winged R badge */}
+                  <circle cx="12" cy="12" r="12" fill="#F6C400"/>
+                  <path d="M12 5.5C8.4 5.5 5.5 8.4 5.5 12S8.4 18.5 12 18.5 18.5 15.6 18.5 12 15.6 5.5 12 5.5ZM9.5 9.5H12.5C13.3 9.5 14 10.2 14 11C14 11.8 13.3 12.5 12.5 12.5H11V15H9.5V9.5ZM11 11H12.5C12.8 11 13 10.8 13 10.5C13 10.2 12.8 10 12.5 10H11V11Z" fill="black"/>
+                  <path d="M13.5 12.5L15.5 15H17L14.7 12.2C14.3 12.4 13.9 12.5 13.5 12.5Z" fill="black"/>
+                </svg>
+              </motion.a>
+            </div>
+          </motion.div>
+
         </div>
       </div>
     </section>

@@ -424,3 +424,60 @@ body {
   -webkit-text-fill-color: #ffffff !important;
   color: #ffffff !important;
 }
+
+/* ========== RSVP SECTION WHITE BACKGROUND ========== */
+.rsvp-section {
+  background: #ffffff !important;
+  color: var(--text-dark) !important;
+}
+
+.rsvp-section::before {
+  display: none !important; /* Hide overlay floral pattern on pure white */
+}
+
+.rsvp-section .section-label {
+  color: var(--wine-light) !important;
+}
+
+.rsvp-section .section-title {
+  color: var(--wine) !important;
+  text-shadow: none !important;
+}
+
+.rsvp-section .section-ornament {
+  background: linear-gradient(90deg, transparent, var(--champagne-dark), transparent) !important;
+}
+
+.rsvp-section .rsvp-input,
+.rsvp-section .rsvp-select {
+  background: #fbf8f166 !important;
+  color: var(--text-dark) !important;
+  border: 1px solid var(--champagne) !important;
+}
+
+.rsvp-section .rsvp-input::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 0.6;
+}
+
+.rsvp-section .rsvp-select option {
+  background: #ffffff !important;
+  color: var(--text-dark) !important;
+}
+
+.rsvp-section .rsvp-error {
+  color: var(--wine-deep) !important;
+  background: #fdf3f5 !important;
+  border: 1px solid #e2a6b2 !important;
+}
+
+.rsvp-section .rsvp-submit {
+  background: var(--wine) !important;
+  color: #ffffff !important;
+}
+
+.rsvp-section .rsvp-submit:hover {
+  background: var(--wine-light) !important;
+  box-shadow: 0 8px 30px rgba(107, 45, 62, 0.25) !important;
+}
+

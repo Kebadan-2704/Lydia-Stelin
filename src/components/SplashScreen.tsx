@@ -59,7 +59,57 @@ export default function SplashScreen({ onEnter, visible }: SplashScreenProps) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // 1. Web Audio API synthesized wax seal snap cracking sound
+  const playWaxCrackSound = () => {
+    try {
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      
+      // High-frequency crack noise
+      const bufferSize = audioCtx.sampleRate * 0.05; // 50ms click
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i * 0.005);
+      }
+
+      const noiseNode = audioCtx.createBufferSource();
+      noiseNode.buffer = buffer;
+
+      // Low-frequency envelope thump
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(80, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.15);
+
+      gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(800, audioCtx.currentTime);
+
+      noiseNode.connect(filter);
+      osc.connect(gain);
+      
+      filter.connect(audioCtx.destination);
+      gain.connect(audioCtx.destination);
+
+      noiseNode.start();
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.15);
+    } catch (e) {
+      console.warn('Web Audio Crack synthesis not supported:', e);
+    }
+  };
+
   const handleOpen = () => {
+    playWaxCrackSound();
+    // Soft haptic crunch if mobile
+    if (navigator.vibrate) {
+      navigator.vibrate([45]);
+    }
     setIsOpening(true);
     setTimeout(() => onEnter(), 1200);
   };
@@ -281,7 +331,7 @@ export default function SplashScreen({ onEnter, visible }: SplashScreenProps) {
                 transition={{ duration: 0.8, ease: 'easeInOut' }}
               />
 
-              {/* Wax Seal */}
+              {/* Gold Foiled Monogrammed 3D Wax Seal */}
               <div
                 style={{
                   position: 'absolute', top: '55%', left: '50%',
@@ -296,22 +346,34 @@ export default function SplashScreen({ onEnter, visible }: SplashScreenProps) {
                   initial={{ opacity: 0, scale: 0, rotate: -180 }}
                   animate={isOpening ? { opacity: 0, scale: 0, rotate: 180 } : { opacity: 1, scale: 1, rotate: 0 }}
                   transition={{ duration: 1, delay: isOpening ? 0 : 2.8, type: 'spring', stiffness: 200 }}
-                  whileHover={{ scale: 1.12, boxShadow: '0 0 30px rgba(212, 165, 116, 0.5)' }}
+                  whileHover={{ scale: 1.12, boxShadow: '0 0 35px rgba(212, 165, 116, 0.7)' }}
                   whileTap={{ scale: 0.9 }}
                   style={{
-                  width: '90px', height: '90px',
-                  background: 'radial-gradient(circle at 35% 35%, #8B3A4A, #4A1525)',
-                  borderRadius: '50%',
-                  border: '3px solid var(--champagne)',
-                  color: 'var(--ivory)',
-                  cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.1)',
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '0.75rem', letterSpacing: '4px', textTransform: 'uppercase'
+                    width: '95px', height: '95px',
+                    background: 'radial-gradient(circle at 30% 30%, #a21b36 0%, #6b2d3e 50%, #441421 100%)',
+                    borderRadius: '50%',
+                    border: '4px solid var(--champagne)',
+                    color: 'var(--ivory)',
+                    cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    boxShadow: '0 15px 40px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.15)',
+                    position: 'relative'
                   }}
                 >
-                  Open
+                  <div style={{
+                    position: 'absolute',
+                    inset: '6px',
+                    border: '1.5px dashed rgba(212,165,116,0.5)',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <span style={{ fontFamily: 'var(--font-script)', fontSize: '1.8rem', color: 'var(--champagne)', margin: '0 0 -5px', fontWeight: 'bold' }}>L</span>
+                    <span style={{ fontSize: '0.65rem', color: 'var(--champagne-light)', opacity: 0.85 }}>&</span>
+                    <span style={{ fontFamily: 'var(--font-script)', fontSize: '1.8rem', color: 'var(--champagne)', margin: '-5px 0 0', fontWeight: 'bold' }}>S</span>
+                  </div>
                 </motion.button>
               </div>
             </motion.div>

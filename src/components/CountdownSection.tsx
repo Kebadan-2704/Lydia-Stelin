@@ -38,8 +38,10 @@ function FlipNumber({ value, label }: { value: string; label: string }) {
   );
 }
 
+
 export default function CountdownSection() {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [isAnniversaryMode, setIsAnniversaryMode] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -48,17 +50,24 @@ export default function CountdownSection() {
       const diff = WEDDING_DATE - now;
 
       if (diff <= 0) {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        clearInterval(timer);
-        return;
+        setIsAnniversaryMode(true);
+        // Anniversary count-up mode
+        const elapsed = now - WEDDING_DATE;
+        setTimeLeft({
+          days: Math.floor(elapsed / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((elapsed / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((elapsed / (1000 * 60)) % 60),
+          seconds: Math.floor((elapsed / 1000) % 60),
+        });
+      } else {
+        setIsAnniversaryMode(false);
+        setTimeLeft({
+          days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((diff / (1000 * 60)) % 60),
+          seconds: Math.floor((diff / 1000) % 60),
+        });
       }
-
-      setTimeLeft({
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((diff / (1000 * 60)) % 60),
-        seconds: Math.floor((diff / 1000) % 60),
-      });
     }, 1000);
 
     return () => clearInterval(timer);
@@ -88,10 +97,11 @@ export default function CountdownSection() {
     return () => ctx.revert();
   }, []);
 
+
   const pad = (n: number) => String(n).padStart(2, '0');
 
   return (
-    <section className="countdown-section" ref={sectionRef} id="countdown">
+    <section className="countdown-section" ref={sectionRef} id="countdown" style={{ position: 'relative' }}>
       <motion.h2
         className="countdown-heading"
         initial={{ opacity: 0, y: 20 }}
@@ -99,8 +109,27 @@ export default function CountdownSection() {
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
-        Counting Down to Forever
+        {isAnniversaryMode ? 'Celebrating Our Forever' : 'Counting Down to Forever'}
       </motion.h2>
+
+      {isAnniversaryMode && (
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 0.9, y: 0 }}
+          style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: '1rem',
+            color: 'var(--champagne-light)',
+            fontStyle: 'italic',
+            textAlign: 'center',
+            marginTop: '-15px',
+            marginBottom: '30px',
+            letterSpacing: '1px'
+          }}
+        >
+          Time passed since our sacred union in holy matrimony
+        </motion.p>
+      )}
 
       <div className="countdown-grid">
         <FlipNumber value={pad(timeLeft.days)} label="Days" />
