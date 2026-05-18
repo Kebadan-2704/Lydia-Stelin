@@ -19,7 +19,6 @@ const GallerySection = lazy(() => import('./components/GallerySection'));
 const GuestbookSection = lazy(() => import('./components/GuestbookSection'));
 const QuoteTicker = lazy(() => import('./components/QuoteTicker'));
 const MeetTheCrew = lazy(() => import('./components/MeetTheCrew'));
-const PWAInstallConcierge = lazy(() => import('./components/PWAInstallConcierge'));
 
 
 export default function App() {
@@ -36,7 +35,6 @@ export default function App() {
           <HeroSection />
           
           <Suspense fallback={<div style={{ height: '100vh' }}></div>}>
-            <PWAInstallConcierge />
             <FloatingParticles />
             <CountdownSection />
             <NoteSection />

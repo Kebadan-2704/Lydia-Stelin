@@ -44,9 +44,21 @@ export default function VenueSection() {
   const destLng = '76.9068';
   const destName = 'Lotus Mahal, Coimbatore';
 
-  const uberUrl = `https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=${destLat}&dropoff[longitude]=${destLng}&dropoff[nickname]=${encodeURIComponent(destName)}`;
-  const olaUrl = `https://book.olacabs.com/?lat=${destLat}&lng=${destLng}&drop_name=${encodeURIComponent(destName)}`;
-  const rapidoUrl = `https://rapido.link/app`; // Standard Rapido universal app deep link
+  const uberUrl = `https://m.uber.com/ul/?action=setPickup&pickup[latitude]=my_location&pickup[longitude]=my_location&dropoff[latitude]=${destLat}&dropoff[longitude]=${destLng}&dropoff[nickname]=${encodeURIComponent(destName)}`;
+  const olaUrl = `https://book.olacabs.com/?pickup_name=Current%20Location&drop_lat=${destLat}&drop_lng=${destLng}&drop_name=${encodeURIComponent(destName)}`;
+  // Dynamic Rapido URL routing using client-side platform detection
+  const getRapidoUrl = () => {
+    if (typeof window === 'undefined') return 'https://www.rapido.bike';
+    const ua = navigator.userAgent || navigator.vendor || (window as any).opera;
+    if (/android/i.test(ua)) {
+      return 'https://play.google.com/store/apps/details?id=com.rapido.passenger';
+    }
+    if (/iPad|iPhone|iPod/.test(ua) && !(window as any).MSStream) {
+      return 'https://apps.apple.com/in/app/rapido-bike-taxi-auto-cabs/id1198464606';
+    }
+    return 'https://www.rapido.bike';
+  };
+  const rapidoUrl = getRapidoUrl();
 
   return (
     <section className="venue-section section" ref={sectionRef} id="venue">

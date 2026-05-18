@@ -17,7 +17,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.venue': 'Venue',
     'nav.rsvp': 'RSVP',
     'nav.gallery': 'Gallery',
-    'nav.blessings': 'Blessings',
+    'nav.blessings': 'Blessing Wall',
     
     // Splash / Hero
     'hero.invite': 'Save The Date',
@@ -74,7 +74,7 @@ const translations: Record<Language, Record<string, string>> = {
     'rsvp.accommodation': 'Do you require accommodation assistance?',
     'rsvp.assistance': 'Any other assistance required',
     'rsvp.submit': 'Confirm RSVP',
-    'rsvp.keepsake': 'Here is your custom RSVP keepsake pass',
+    'rsvp.keepsake': 'Here is your custom RSVP invitation confirmation',
     
     // Gallery
     'gallery.title': 'Photo Gallery',
@@ -84,7 +84,7 @@ const translations: Record<Language, Record<string, string>> = {
     'gallery.share': 'Share Your Photos',
     
     // Blessings
-    'blessings.title': 'Share Your Blessings',
+    'blessings.title': 'Blessing Wall',
     'blessings.relationship': 'Your Relationship',
     'blessings.placeholder': 'Write your sweet scriptural blessing or words of wisdom...',
     'blessings.submit': 'Send Blessing',
@@ -106,7 +106,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.venue': 'இடம்',
     'nav.rsvp': 'பதிவு',
     'nav.gallery': 'புகைப்படங்கள்',
-    'nav.blessings': 'வாழ்த்துகள்',
+    'nav.blessings': 'வாழ்த்துச் சுவர்',
     
     // Splash / Hero
     'hero.invite': 'தேதியை சேமிக்கவும்',
@@ -163,7 +163,7 @@ const translations: Record<Language, Record<string, string>> = {
     'rsvp.accommodation': 'தங்கும் வசதி உதவி தேவையா?',
     'rsvp.assistance': 'வேறு ஏதேனும் உதவிகள் தேவைப்படின்',
     'rsvp.submit': 'வருகையை உறுதிசெய்',
-    'rsvp.keepsake': 'உங்கள் பிரத்யேக அழைப்பிதழ் அட்டை இதோ',
+    'rsvp.keepsake': 'உங்கள் வருகை உறுதிசெய்யப்பட்டது',
     
     // Gallery
     'gallery.title': 'புகைப்பட தொகுப்பு',
@@ -173,7 +173,7 @@ const translations: Record<Language, Record<string, string>> = {
     'gallery.share': 'புகைப்படங்களை பகிர்க',
     
     // Blessings
-    'blessings.title': 'உங்கள் வாழ்த்துக்களைப் பகிர்க',
+    'blessings.title': 'வாழ்த்துச் சுவர்',
     'blessings.relationship': 'உறவுமுறை',
     'blessings.placeholder': 'உங்கள் அன்பான ஆசீர்வாதம் அல்லது அறிவுரைகளை எழுதவும்...',
     'blessings.submit': 'வாழ்த்து அனுப்புக',

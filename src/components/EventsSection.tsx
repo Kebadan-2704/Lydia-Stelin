@@ -1,13 +1,16 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 const events = [
   {
     icon: '⛪',
     time: '5:00 PM',
-    name: 'Holy Matrimony',
-    desc: 'The holy matrimony solemnized in the presence of God, family, and friends.',
+    nameEn: 'Holy Matrimony',
+    nameTa: 'புனிதத் திருமணம்',
+    descEn: 'The holy matrimony solemnized in the presence of God, family, and friends.',
+    descTa: 'தேவன், குடும்பத்தினர் மற்றும் நண்பர்கள் முன்னிலையில் புனிதத் திருமணம் நடைபெறும்.',
     googleUrl: 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Lydia+%26+Stelin+-+Holy+Matrimony&dates=20260722T113000Z/20260722T130000Z&details=Witness+our+holy+union+in+love!&location=Lotus+Mahal,+Coimbatore',
     startTime: '20260722T113000Z',
     endTime: '20260722T130000Z'
@@ -15,8 +18,10 @@ const events = [
   {
     icon: '🥂',
     time: '6:30 PM',
-    name: 'Grand Reception',
-    desc: 'Join us for a joyful evening celebration of love, music, and congratulations.',
+    nameEn: 'Grand Reception',
+    nameTa: 'வரவேற்பு நிகழ்ச்சி',
+    descEn: 'Join us for a joyful evening celebration of love, music, and congratulations.',
+    descTa: 'இசை, கொண்டாட்டம் மற்றும் வாழ்த்துகளுடன் கூடிய எங்களது திருமண வரவேற்பு நிகழ்வில் கலந்து கொள்ளுங்கள்.',
     googleUrl: 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Lydia+%26+Stelin+-+Grand+Reception&dates=20260722T130000Z/20260722T133000Z&details=Join+us+for+Grand+Reception!&location=Lotus+Mahal,+Coimbatore',
     startTime: '20260722T130000Z',
     endTime: '20260722T133000Z'
@@ -24,8 +29,10 @@ const events = [
   {
     icon: '🍽️',
     time: '7:00 PM',
-    name: 'Wedding Dinner',
-    desc: 'Celebrate with us over a grand feast and delicious wedding dinner.',
+    nameEn: 'Wedding Dinner',
+    nameTa: 'திருமண விருந்து',
+    descEn: 'Celebrate with us over a grand feast and delicious wedding dinner.',
+    descTa: 'எங்களது பிரத்யேக திருமண விருந்தில் இணைந்து மகிழுங்கள்.',
     googleUrl: 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Lydia+%26+Stelin+-+Wedding+Dinner&dates=20260722T133000Z/20260722T163000Z&details=Celebrate+the+night+away+with+us!&location=Lotus+Mahal,+Coimbatore',
     startTime: '20260722T133000Z',
     endTime: '20260722T163000Z'
@@ -43,6 +50,7 @@ const cardVariants: Variants = {
 };
 
 export default function EventsSection() {
+  const { language } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [showCalendarMenu, setShowCalendarMenu] = useState(false);
   const calendarMenuRef = useRef<HTMLDivElement>(null);
@@ -57,34 +65,6 @@ export default function EventsSection() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  // Single event ICS downloader
-  const downloadSingleIcs = (eventName: string, eventDesc: string, startTime: string, endTime: string) => {
-    const icsContent = [
-      'BEGIN:VCALENDAR',
-      'VERSION:2.0',
-      'PRODID:-//Lydia Stelin Wedding//iCal Event//EN',
-      'BEGIN:VEVENT',
-      'UID:' + Date.now() + '-' + eventName.replace(/\s+/g, '') + '@lydiastelin2026.com',
-      'DTSTAMP:20260518T000000Z',
-      'DTSTART:' + startTime,
-      'DTEND:' + endTime,
-      'SUMMARY:Lydia & Stelin - ' + eventName,
-      'DESCRIPTION:' + eventDesc,
-      'LOCATION:Lotus Mahal, Coimbatore, Tamil Nadu, India',
-      'END:VEVENT',
-      'END:VCALENDAR'
-    ].join('\r\n');
-
-    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', `${eventName.replace(/\s+/g, '_')}_Lydia_Stelin.ics`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
 
   // Full day event ICS downloader
   const handleIcsDownload = () => {
@@ -131,9 +111,11 @@ export default function EventsSection() {
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         >
-          Schedule
+          {language === 'ta' ? 'நிகழ்ச்சி நிரல்' : 'Schedule'}
         </motion.p>
-        <h2 className="section-title">Wedding Day</h2>
+        <h2 className="section-title">
+          {language === 'ta' ? 'திருமணத் திருநாள்' : 'Wedding Day'}
+        </h2>
         <motion.div
           className="section-ornament"
           initial={{ scaleX: 0 }}
@@ -147,7 +129,7 @@ export default function EventsSection() {
         {events.map((event, i) => (
           <motion.div
             className="event-card"
-            key={event.name}
+            key={event.nameEn}
             custom={i}
             variants={cardVariants}
             initial="hidden"
@@ -166,27 +148,12 @@ export default function EventsSection() {
               {event.icon}
             </motion.span>
             <p className="event-time">{event.time}</p>
-            <p className="event-name">{event.name}</p>
-            <p className="event-desc">{event.desc}</p>
-
-            {/* Individual Minimalist Add-to-Calendar triggers */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '16px', borderTop: '1px dashed #d4a57433', paddingTop: '12px' }}>
-              <a 
-                href={event.googleUrl} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                style={{ fontSize: '0.65rem', color: 'var(--wine-light)', textDecoration: 'none', fontFamily: 'var(--font-display)', letterSpacing: '1px', fontWeight: 600, textTransform: 'uppercase' }}
-              >
-                + Google
-              </a>
-              <span style={{ color: '#d4a57444', fontSize: '0.65rem' }}>|</span>
-              <button 
-                onClick={() => downloadSingleIcs(event.name, event.desc, event.startTime, event.endTime)} 
-                style={{ border: 'none', background: 'transparent', cursor: 'pointer', fontSize: '0.65rem', color: 'var(--wine-light)', fontFamily: 'var(--font-display)', letterSpacing: '1px', fontWeight: 600, textTransform: 'uppercase', padding: 0 }}
-              >
-                + Apple
-              </button>
-            </div>
+            <p className="event-name">
+              {language === 'ta' ? event.nameTa : event.nameEn}
+            </p>
+            <p className="event-desc">
+              {language === 'ta' ? event.descTa : event.descEn}
+            </p>
           </motion.div>
         ))}
       </div>
@@ -206,7 +173,7 @@ export default function EventsSection() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              📅 Add Full Itinerary
+              📅 {language === 'ta' ? 'நாள்காட்டியில் சேர்க்க' : 'Add to Calendar'}
             </motion.button>
  
             <AnimatePresence>
@@ -314,11 +281,11 @@ export default function EventsSection() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              📹 Join Live Stream
+              📹 {language === 'ta' ? 'நேரடி ஒளிபரப்பில் இணையுங்கள்' : 'Join Live Stream'}
             </motion.a>
           ) : (
             <span className="venue-map-btn venue-map-btn-disabled" aria-disabled="true" style={{ padding: '12px 24px', fontSize: '0.65rem', opacity: 0.6 }}>
-              📹 Live Stream Scheduled
+              📹 {language === 'ta' ? 'நேரடி ஒளிபரப்பு விரைவில்' : 'Live Stream Scheduled'}
             </span>
           )}
         </div>
@@ -335,17 +302,23 @@ interface LiveStreamCardProps {
 }
 
 function LiveStreamCard({ liveStreamUrl }: LiveStreamCardProps) {
-  const [tz, setTz] = useState('IST');
+  const { language } = useLanguage();
+  const [showHurryMessage, setShowHurryMessage] = useState(false);
 
-  const tzSchedule: Record<string, { matrimony: string; reception: string; dinner: string; label: string }> = {
-    IST: { matrimony: '5:00 PM', reception: '6:30 PM', dinner: '7:00 PM', label: 'Indian Standard Time (Asia/Kolkata)' },
-    GMT: { matrimony: '12:30 PM', reception: '2:00 PM', dinner: '2:30 PM', label: 'Greenwich Mean Time (London)' },
-    EST: { matrimony: '7:30 AM', reception: '9:00 AM', dinner: '9:30 AM', label: 'Eastern Standard Time (New York)' },
-    SGT: { matrimony: '7:30 PM', reception: '9:00 PM', dinner: '9:30 PM', label: 'Singapore Time (Singapore)' },
-    GST: { matrimony: '3:30 PM', reception: '5:00 PM', dinner: '5:30 PM', label: 'Gulf Standard Time (Dubai)' }
+  const handleYoutubeClick = (e: React.MouseEvent) => {
+    const weddingDate = new Date('2026-07-22T00:00:00+05:30');
+    const isWeddingDayOrLater = new Date() >= weddingDate;
+
+    if (!isWeddingDayOrLater) {
+      e.preventDefault();
+      setShowHurryMessage(true);
+      setTimeout(() => setShowHurryMessage(false), 5000);
+    } else if (liveStreamUrl) {
+      window.open(liveStreamUrl, '_blank', 'noopener,noreferrer');
+    } else {
+      window.open('https://youtube.com', '_blank', 'noopener,noreferrer');
+    }
   };
-
-  const currentTimes = tzSchedule[tz] || tzSchedule.IST;
 
   return (
     <motion.div
@@ -357,7 +330,7 @@ function LiveStreamCard({ liveStreamUrl }: LiveStreamCardProps) {
         background: 'rgba(255, 255, 255, 0.85)',
         border: '1.5px solid var(--champagne)',
         borderRadius: '24px',
-        padding: '40px 30px',
+        padding: '45px 30px',
         boxShadow: '0 20px 40px rgba(107, 45, 62, 0.05)',
         backdropFilter: 'blur(10px)',
         textAlign: 'center',
@@ -379,99 +352,73 @@ function LiveStreamCard({ liveStreamUrl }: LiveStreamCardProps) {
             border: '1px solid #d4a57433'
           }}
         >
-          GLOBAL VIRTUAL PORTAL
+          {language === 'ta' ? 'இணைய வழி ஒளிபரப்பு' : 'VIRTUAL ATTENDANCE PORTAL'}
         </span>
       </div>
 
       <h3 style={{ fontFamily: 'var(--font-serif)', color: 'var(--wine)', fontSize: '1.4rem', marginBottom: '12px' }}>
-        Celebrate with us from anywhere
+        {language === 'ta' ? 'எங்கிருந்தும் எங்களுடன் இணைந்து கொண்டாடுங்கள்' : 'Celebrate with us from anywhere'}
       </h3>
-      <p style={{ fontFamily: 'var(--font-serif)', color: 'var(--text-muted)', fontSize: '0.85rem', maxWidth: '500px', margin: '0 auto 24px', lineHeight: 1.6 }}>
-        If you are attending virtually, choose your local timezone below to synchronize the wedding day schedule dynamically!
+      <p style={{ fontFamily: 'var(--font-serif)', color: 'var(--text-muted)', fontSize: '0.85rem', maxWidth: '500px', margin: '0 auto 30px', lineHeight: 1.6 }}>
+        {language === 'ta' 
+          ? 'நீங்கள் இணையம் வழியாக எங்களது திருமணத்தில் கலந்துகொண்டு எங்களை ஆசீர்வதிக்க அன்புடன் அழைக்கிறோம்!'
+          : 'We warmly invite you to join our wedding virtually and shower your blessings from the comfort of your home!'}
       </p>
 
-      {/* Timezone Switcher Dropdown */}
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', marginBottom: '30px' }}>
-        <span style={{ fontFamily: 'var(--font-serif)', fontSize: '0.85rem', color: 'var(--text-body)' }}>Select Timezone:</span>
-        <select
-          value={tz}
-          onChange={(e) => setTz(e.target.value)}
-          style={{
-            padding: '8px 16px',
-            borderRadius: '20px',
-            border: '1.5px solid var(--champagne)',
-            background: '#ffffff',
-            fontFamily: 'var(--font-serif)',
-            fontSize: '0.85rem',
-            color: 'var(--wine)',
-            cursor: 'pointer',
-            outline: 'none'
-          }}
-        >
-          <option value="IST">IST (India)</option>
-          <option value="GMT">GMT (UK)</option>
-          <option value="EST">EST (US East)</option>
-          <option value="SGT">SGT (Singapore)</option>
-          <option value="GST">GST (Gulf)</option>
-        </select>
-      </div>
+      {/* Pulsing red YouTube symbol / play button */}
+      <motion.div
+        onClick={handleYoutubeClick}
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.95 }}
+        animate={{ boxShadow: ['0 10px 25px rgba(255, 0, 0, 0.05)', '0 10px 30px rgba(255, 0, 0, 0.2)', '0 10px 25px rgba(255, 0, 0, 0.05)'] }}
+        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          width: '100px',
+          height: '100px',
+          background: 'rgba(255, 0, 0, 0.08)',
+          border: '2px solid rgba(255, 0, 0, 0.3)',
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          margin: '0 auto 20px',
+          cursor: 'pointer',
+          position: 'relative'
+        }}
+      >
+        <svg viewBox="0 0 24 24" width="50" height="50" fill="#FF0000" style={{ filter: 'drop-shadow(0 4px 8px rgba(255, 0, 0, 0.25))' }}>
+          <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.517 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.508 9.388.508 9.388.508s7.517 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+        </svg>
+      </motion.div>
 
-      {/* Localized Timing Schedule list */}
-      <div style={{
-        maxWidth: '450px',
-        margin: '0 auto 30px',
-        background: 'var(--ivory-warm)',
-        border: '1px dashed rgba(107, 45, 62, 0.2)',
-        borderRadius: '16px',
-        padding: '20px',
-        textAlign: 'left'
-      }}>
-        <span style={{ display: 'block', fontSize: '0.65rem', color: 'var(--text-muted)', fontFamily: 'var(--font-display)', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '12px', textAlign: 'center' }}>
-          🕒 Localized Schedule ({currentTimes.label})
-        </span>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid rgba(212,165,116,0.2)' }}>
-          <span style={{ fontFamily: 'var(--font-serif)', fontSize: '0.9rem', fontWeight: 'bold', color: 'var(--wine)' }}>⛪ Holy Matrimony</span>
-          <span style={{ fontFamily: 'var(--font-serif)', fontSize: '0.9rem', color: 'var(--wine-light)' }}>{currentTimes.matrimony}</span>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid rgba(212,165,116,0.2)' }}>
-          <span style={{ fontFamily: 'var(--font-serif)', fontSize: '0.9rem', fontWeight: 'bold', color: 'var(--wine)' }}>🥂 Grand Reception</span>
-          <span style={{ fontFamily: 'var(--font-serif)', fontSize: '0.9rem', color: 'var(--wine-light)' }}>{currentTimes.reception}</span>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0' }}>
-          <span style={{ fontFamily: 'var(--font-serif)', fontSize: '0.9rem', fontWeight: 'bold', color: 'var(--wine)' }}>🍽️ Wedding Dinner</span>
-          <span style={{ fontFamily: 'var(--font-serif)', fontSize: '0.9rem', color: 'var(--wine-light)' }}>{currentTimes.dinner}</span>
-        </div>
+      <div style={{ fontFamily: 'var(--font-serif)', fontSize: '0.85rem', color: 'var(--text-muted)', fontStyle: 'italic', height: '40px' }}>
+        <AnimatePresence mode="wait">
+          {!showHurryMessage ? (
+            <motion.span
+              key="prompt"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              {language === 'ta'
+                ? 'இணைய வழி நேரடி ஒளிபரப்பைக் காண YouTube குறியீட்டை அழுத்தவும்.'
+                : 'Click the YouTube icon to join our virtual broadcast.'}
+            </motion.span>
+          ) : (
+            <motion.span
+              key="warning"
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              style={{ color: 'var(--wine)', fontWeight: 'bold', display: 'block' }}
+            >
+              ⏳ {language === 'ta'
+                ? 'அவசரப்பட வேண்டாம், திருமணத்திற்கு இன்னும் நாட்கள் உள்ளன! ⏳'
+                : "Don't be in a hurry, we have more days! ⏳"}
+            </motion.span>
+          )}
+        </AnimatePresence>
       </div>
-
-      {liveStreamUrl ? (
-        <motion.a
-          href={liveStreamUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: 'inline-block',
-            background: 'var(--wine)',
-            color: '#ffffff',
-            fontFamily: 'var(--font-display)',
-            fontSize: '0.75rem',
-            fontWeight: 'bold',
-            letterSpacing: '2px',
-            textTransform: 'uppercase',
-            padding: '14px 40px',
-            borderRadius: '8px',
-            textDecoration: 'none',
-            boxShadow: '0 4px 15px rgba(107,45,62,0.2)'
-          }}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-        >
-          📹 WATCH LIVE BROADCAST
-        </motion.a>
-      ) : (
-        <div style={{ fontFamily: 'var(--font-serif)', fontSize: '0.85rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
-          Live stream link will activate right here as the ceremony starts.
-        </div>
-      )}
     </motion.div>
   );
 }

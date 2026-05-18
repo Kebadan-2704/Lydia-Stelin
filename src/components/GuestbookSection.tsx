@@ -4,13 +4,29 @@ import { getWishes, submitWish } from '../services/guestbookService';
 import type { GuestWish } from '../services/guestbookService';
 import { useLanguage } from '../context/LanguageContext';
 
-
+const relations = [
+  { value: 'Aunt', labelEn: 'Aunt', labelTa: 'அத்தை' },
+  { value: 'Brother', labelEn: 'Brother', labelTa: 'சகோதரன்' },
+  { value: 'Church Member', labelEn: 'Church Member', labelTa: 'சபை உறுப்பினர்' },
+  { value: 'Colleague', labelEn: 'Colleague', labelTa: 'உடன் பணிபுரிபவர்' },
+  { value: 'Cousin', labelEn: 'Cousin', labelTa: 'உறவினர் (Cousin)' },
+  { value: 'Extended Family', labelEn: 'Extended Family', labelTa: 'நெருங்கிய உறவினர்' },
+  { value: 'Friend', labelEn: 'Friend', labelTa: 'நண்பர்' },
+  { value: 'Grandparents', labelEn: 'Grandparents', labelTa: 'தாத்தா / பாட்டி' },
+  { value: 'Guest', labelEn: 'Guest', labelTa: 'விருந்தினர்' },
+  { value: 'Nephew', labelEn: 'Nephew', labelTa: 'மருமகன்' },
+  { value: 'Niece', labelEn: 'Niece', labelTa: 'மருமகள்' },
+  { value: 'Parents', labelEn: 'Parents', labelTa: 'பெற்றோர்' },
+  { value: 'Sister', labelEn: 'Sister', labelTa: 'சகோதரி' },
+  { value: 'Uncle', labelEn: 'Uncle', labelTa: 'மாமா' },
+  { value: 'Well Wisher', labelEn: 'Well Wisher', labelTa: 'நலவிரும்பி' },
+];
 
 export default function GuestbookSection() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [wishes, setWishes] = useState<GuestWish[]>([]);
   const [name, setName] = useState('');
-  const [relation, setRelation] = useState('Guest');
+  const [relation, setRelation] = useState('Friend');
   const [message, setMessage] = useState('');
   
   // Audio Blessings Voice Mailbox States
@@ -154,7 +170,7 @@ export default function GuestbookSection() {
       setWishes((prev) => [...prev, added]);
       setName('');
       setMessage('');
-      setRelation('Guest');
+      setRelation('Friend');
       setRecordedAudio(undefined);
       setUploadedImg(undefined);
       setSignatureImg(undefined);
@@ -183,7 +199,7 @@ export default function GuestbookSection() {
           {t('blessings.title')}
         </motion.p>
         <h2 className="section-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--wine)', fontSize: 'clamp(2rem, 5vw, 3rem)' }}>
-          Guestbook & Blessings
+          {language === 'ta' ? 'வாழ்த்துச் சுவர்' : 'Blessing Wall'}
         </h2>
         <div className="section-ornament" style={{ width: '80px', height: '2px', background: 'var(--champagne)', margin: '12px auto' }} />
       </div>
@@ -241,13 +257,11 @@ export default function GuestbookSection() {
                     cursor: 'pointer'
                   }}
                 >
-                  <option value="Friend">Friend</option>
-                  <option value="Extended Family">Extended Family</option>
-                  <option value="Church Member">Church Member</option>
-                  <option value="Colleague">Colleague</option>
-                  <option value="Parents">Parents</option>
-                  <option value="Sister">Sister</option>
-                  <option value="Brother">Brother</option>
+                  {relations.map((rel) => (
+                    <option key={rel.value} value={rel.value}>
+                      {language === 'ta' ? rel.labelTa : rel.labelEn}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -447,7 +461,7 @@ export default function GuestbookSection() {
                   boxShadow: '0 4px 15px rgba(107,45,62,0.2)'
                 }}
               >
-                {isSubmitting ? 'Syncing Blessing...' : 'Submit Blessing Pass'}
+                {isSubmitting ? (language === 'ta' ? 'வாழ்த்து சேமிக்கப்படுகிறது...' : 'Syncing Blessing...') : t('blessings.submit')}
               </button>
             </form>
           </motion.div>
