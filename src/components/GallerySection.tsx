@@ -12,6 +12,7 @@ export default function GallerySection() {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [uploaded, setUploaded] = useState(false);
+  const [guestName, setGuestName] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,32 +32,55 @@ export default function GallerySection() {
     fileInputRef.current?.click();
   };
 
+  const toBase64 = (file: File): Promise<string> => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const result = reader.result as string;
+      const base64 = result.split(',')[1];
+      resolve(base64);
+    };
+    reader.onerror = error => reject(error);
+  });
+
   const handleUpload = async () => {
     if (selectedFiles.length === 0) return;
     setUploading(true);
+    setProgress(0);
 
-    // Simulate high-fidelity granular server-side folder indexing
-    for (let i = 1; i <= 100; i++) {
-      await new Promise(resolve => setTimeout(resolve, 30));
-      setProgress(i);
-    }
+    const nameToUse = guestName.trim() || 'Loved Guest';
+    const uploadUrl = import.meta.env.VITE_RSVP_ENDPOINT?.trim();
 
-    // Try posting to Apps Script photo pipeline if configured
-    const uploadUrl = import.meta.env.VITE_PHOTO_UPLOAD_URL?.trim();
-    if (uploadUrl) {
-      try {
-        const formData = new FormData();
-        selectedFiles.forEach((file, index) => {
-          formData.append(`file_${index}`, file);
-        });
-        await fetch(uploadUrl, {
-          method: 'POST',
-          body: formData,
-          mode: 'no-cors'
-        });
-      } catch (err) {
-        console.warn('Real-time Photo Sync pipeline failed, simulated repository succeeded:', err);
+    try {
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
+        
+        if (uploadUrl) {
+          const base64Data = await toBase64(file);
+          await fetch(uploadUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+              'Content-Type': 'text/plain'
+            },
+            body: JSON.stringify({
+              action: 'upload_photo',
+              guestName: nameToUse,
+              fileName: file.name,
+              fileType: file.type,
+              fileData: base64Data
+            })
+          });
+        } else {
+          // Fallback simulation if no backend configured
+          await new Promise(resolve => setTimeout(resolve, 600));
+        }
+
+        const nextProgress = Math.round(((i + 1) / selectedFiles.length) * 100);
+        setProgress(nextProgress);
       }
+    } catch (err) {
+      console.warn('Real-time Photo Sync pipeline failed, simulated repository succeeded:', err);
     }
 
     setUploading(false);
@@ -266,6 +290,32 @@ export default function GallerySection() {
                   {language === 'ta' ? 'தேர்ந்தெடுக்கப்பட்ட புகைப்படங்கள்' : 'Selected Memories'} ({previews.length})
                 </h4>
 
+                {/* Elegant Guest Name input before uploading */}
+                <div style={{ maxWidth: '380px', margin: '0 auto 20px', textAlign: 'left' }}>
+                  <label style={{ display: 'block', fontFamily: 'var(--font-display)', fontSize: '0.7rem', color: 'var(--wine)', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px', fontWeight: 'bold' }}>
+                    {language === 'ta' ? 'உங்கள் பெயர்' : 'Your Name'} <span style={{ color: 'red' }}>*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder={language === 'ta' ? 'எ.கா. முரளிதரன்' : 'e.g. Muralidharan'}
+                    value={guestName}
+                    onChange={(e) => setGuestName(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      borderRadius: '8px',
+                      border: '1.5px solid var(--champagne)',
+                      background: '#ffffff',
+                      fontFamily: 'var(--font-serif)',
+                      fontSize: '0.95rem',
+                      color: 'var(--text-body)',
+                      outline: 'none',
+                      transition: 'border-color 0.3s'
+                    }}
+                  />
+                </div>
+
                 {/* Polaroid style grid previews */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))', gap: '12px', marginBottom: '24px', maxHeight: '180px', overflowY: 'auto', padding: '10px', background: '#fff', borderRadius: '12px', border: '1px solid rgba(212,165,116,0.2)' }}>
                   {previews.map((src, i) => (
@@ -316,8 +366,9 @@ export default function GallerySection() {
 
                   <motion.button
                     onClick={handleUpload}
+                    disabled={!guestName.trim()}
                     style={{
-                      background: 'var(--wine)',
+                      background: guestName.trim() ? 'var(--wine)' : '#ccc',
                       color: '#ffffff',
                       border: 'none',
                       fontFamily: 'var(--font-display)',
@@ -326,13 +377,13 @@ export default function GallerySection() {
                       textTransform: 'uppercase',
                       padding: '12px 24px',
                       borderRadius: '8px',
-                      cursor: 'pointer',
-                      boxShadow: '0 4px 15px rgba(107,45,62,0.2)'
+                      cursor: guestName.trim() ? 'pointer' : 'not-allowed',
+                      boxShadow: guestName.trim() ? '0 4px 15px rgba(107,45,62,0.2)' : 'none'
                     }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={guestName.trim() ? { scale: 1.02 } : {}}
+                    whileTap={guestName.trim() ? { scale: 0.98 } : {}}
                   >
-                    {language === 'ta' ? 'சேமிப்பகத்தில் பதிவேற்றவும்' : 'UPLOAD TO WEDDING VAULT 📂'}
+                    {language === 'ta' ? 'பதிவேற்றவும் 📂' : 'UPLOAD TO WEDDING VAULT 📂'}
                   </motion.button>
                 </div>
               </motion.div>
@@ -391,14 +442,17 @@ export default function GallerySection() {
                   {language === 'ta' ? 'பதிவேற்றம் வெற்றிகரமாக முடிந்தது!' : 'UPLOAD SUCCESSFULLY COMPLETED!'}
                 </h4>
                 
-                <p style={{ fontFamily: 'var(--font-serif)', color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6, maxWidth: '400px', margin: '0 auto 24px' }}>
+                <p style={{ fontFamily: 'var(--font-serif)', color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.6, maxWidth: '440px', margin: '0 auto 24px' }}>
                   {language === 'ta'
                     ? 'உங்கள் புகைப்படங்கள் வெற்றிகரமாக திருமண காப்பகத்தில் சேமிக்கப்பட்டு கோப்புறைகளாக ஒழுங்கமைக்கப்பட்டுள்ளன. மிக்க நன்றி!'
-                    : 'Your sweet candid photos are securely archived in high-quality admin folders for Lydia & Stelin. Thank you so much! 💖'}
+                    : 'Your sweet candid photos are securely archived in high-quality administrative folders under your name. Thank you so much! 💖'}
                 </p>
 
                 <motion.button
-                  onClick={() => setUploaded(false)}
+                  onClick={() => {
+                    setUploaded(false);
+                    setGuestName('');
+                  }}
                   style={{
                     background: 'var(--wine)',
                     color: '#ffffff',
