@@ -17,7 +17,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.venue': 'Venue',
     'nav.rsvp': 'RSVP',
     'nav.gallery': 'Gallery',
-    'nav.blessings': 'Blessing Wall',
+    'nav.blessings': 'Wall of Blessing',
     
     // Splash / Hero
     'hero.invite': 'Save The Date',
@@ -84,7 +84,7 @@ const translations: Record<Language, Record<string, string>> = {
     'gallery.share': 'Share Your Photos',
     
     // Blessings
-    'blessings.title': 'Blessing Wall',
+    'blessings.title': 'Wall of Blessing',
     'blessings.relationship': 'Your Relationship',
     'blessings.placeholder': 'Write your sweet scriptural blessing or words of wisdom...',
     'blessings.submit': 'Send Blessing',

@@ -217,7 +217,9 @@ export default function RSVPSection() {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                     <div>
                       <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Status</span>
-                      <span style={{ display: 'block', fontFamily: 'var(--font-serif)', fontWeight: 'bold', color: 'var(--wine-light)' }}>Joining ✓</span>
+                      <span style={{ display: 'block', fontFamily: 'var(--font-serif)', fontWeight: 'bold', color: formData.attending === 'yes' ? 'var(--wine-light)' : 'var(--text-muted)' }}>
+                        {formData.attending === 'yes' ? 'Joining ✓' : 'Declined ✕'}
+                      </span>
                     </div>
                     <div>
                       <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Total Guests</span>

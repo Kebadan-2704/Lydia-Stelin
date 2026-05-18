@@ -198,8 +198,8 @@ export default function GuestbookSection() {
         >
           {t('blessings.title')}
         </motion.p>
-        <h2 className="section-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--wine)', fontSize: 'clamp(2rem, 5vw, 3rem)' }}>
-          {language === 'ta' ? 'வாழ்த்துச் சுவர்' : 'Blessing Wall'}
+        <h2 className="section-title" style={{ fontFamily: 'var(--font-script)', color: 'var(--wine)', fontSize: 'clamp(3rem, 6vw, 4rem)' }}>
+          {language === 'ta' ? 'வாழ்த்துச் சுவர்' : 'Wall of Blessing'}
         </h2>
         <div className="section-ornament" style={{ width: '80px', height: '2px', background: 'var(--champagne)', margin: '12px auto' }} />
       </div>

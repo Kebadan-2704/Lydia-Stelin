@@ -176,10 +176,7 @@ export default function VenueSection() {
                   transition: 'transform 0.25s'
                 }}
               >
-                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="12" fill="black"/>
-                  <text x="50%" y="54%" dominantBaseline="middle" textAnchor="middle" fill="white" style={{ fontFamily: 'system-ui, -apple-system, sans-serif', fontWeight: '800', fontSize: '7.2px', letterSpacing: '0.2px' }}>Uber</text>
-                </svg>
+                <img src="/images/uber.webp" alt="Uber" style={{ width: '46px', height: '46px', borderRadius: '50%', objectFit: 'cover' }} />
               </motion.a>
 
               {/* Ola Rideshare Icon */}
@@ -202,12 +199,7 @@ export default function VenueSection() {
                   transition: 'transform 0.25s'
                 }}
               >
-                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  {/* Ola's official bright green and dark crescent circle badge */}
-                  <circle cx="12" cy="12" r="12" fill="#A3C639"/>
-                  <circle cx="12" cy="12" r="8" fill="black"/>
-                  <circle cx="10.2" cy="12" r="4.2" fill="#A3C639"/>
-                </svg>
+                <img src="/images/ola.png" alt="Ola" style={{ width: '46px', height: '46px', borderRadius: '50%', objectFit: 'cover' }} />
               </motion.a>
 
               {/* Rapido Rideshare Icon */}
@@ -230,12 +222,7 @@ export default function VenueSection() {
                   transition: 'transform 0.25s'
                 }}
               >
-                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  {/* Rapido's official vibrant yellow and black winged R badge */}
-                  <circle cx="12" cy="12" r="12" fill="#F6C400"/>
-                  <path d="M12 5.5C8.4 5.5 5.5 8.4 5.5 12S8.4 18.5 12 18.5 18.5 15.6 18.5 12 15.6 5.5 12 5.5ZM9.5 9.5H12.5C13.3 9.5 14 10.2 14 11C14 11.8 13.3 12.5 12.5 12.5H11V15H9.5V9.5ZM11 11H12.5C12.8 11 13 10.8 13 10.5C13 10.2 12.8 10 12.5 10H11V11Z" fill="black"/>
-                  <path d="M13.5 12.5L15.5 15H17L14.7 12.2C14.3 12.4 13.9 12.5 13.5 12.5Z" fill="black"/>
-                </svg>
+                <img src="/images/rapido.png" alt="Rapido" style={{ width: '46px', height: '46px', borderRadius: '50%', objectFit: 'cover' }} />
               </motion.a>
             </div>
           </motion.div>
