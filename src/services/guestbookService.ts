@@ -1,6 +1,5 @@
 import { collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from 'firebase/firestore';
-import { ref, uploadString, getDownloadURL } from 'firebase/storage';
-import { db, storage } from './firebase';
+import { db } from './firebase';
 
 export interface GuestWish {
   id: string;
@@ -37,30 +36,45 @@ export function subscribeToWishes(callback: (wishes: GuestWish[]) => void) {
   });
 }
 
-// Helper to extract base64 data and upload
-async function uploadBase64(base64String: string, path: string): Promise<string> {
-  const storageRef = ref(storage, path);
-  await uploadString(storageRef, base64String, 'data_url');
-  return await getDownloadURL(storageRef);
-}
+// Automatically compress guest images using HTML5 Canvas to keep Firestore documents tiny (< 100KB)
+async function compressImage(base64Str: string, maxWidth = 500, quality = 0.5): Promise<string> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = base64Str;
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let width = img.width;
+      let height = img.height;
 
-// Function to upload audio blob url
-async function uploadAudioBlobUrl(blobUrl: string, path: string): Promise<string> {
-  const response = await fetch(blobUrl);
-  const blob = await response.blob();
-  
-  // Convert blob to base64 data url
-  const reader = new FileReader();
-  return new Promise((resolve, reject) => {
-    reader.onloadend = async () => {
-      try {
-        const base64data = reader.result as string;
-        const url = await uploadBase64(base64data, path);
-        resolve(url);
-      } catch (err) {
-        reject(err);
+      // Maintain aspect ratio while resizing
+      if (width > maxWidth) {
+        height = Math.round((height * maxWidth) / width);
+        width = maxWidth;
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.drawImage(img, 0, 0, width, height);
+        // Output compressed JPEG
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      } else {
+        resolve(base64Str);
       }
     };
+    img.onerror = () => resolve(base64Str);
+  });
+}
+
+// Convert local voice recording blob to base64 string for direct database storage
+async function blobUrlToBase64(blobUrl: string): Promise<string> {
+  const response = await fetch(blobUrl);
+  const blob = await response.blob();
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result as string);
     reader.onerror = reject;
     reader.readAsDataURL(blob);
   });
@@ -70,25 +84,24 @@ export async function submitWish(
   name: string,
   relation: string,
   message: string,
-  audioUrl?: string, // Actually a local blob URL
-  imageUrl?: string, // Actually a base64 data URL
-  signatureData?: string // Actually a base64 data URL
+  audioUrl?: string, // Local blob URL
+  imageUrl?: string, // Uploaded polaroid base64
+  signatureData?: string // Handwritten signature base64
 ): Promise<GuestWish> {
   
-  const wishId = 'w_' + Date.now();
-  let uploadedAudioUrl = '';
-  let uploadedImageUrl = '';
-  let uploadedSignatureUrl = '';
+  let finalAudio = '';
+  let finalImage = '';
+  let finalSignature = signatureData || '';
 
   try {
+    // 1. Process voice note to base64 if present
     if (audioUrl) {
-      uploadedAudioUrl = await uploadAudioBlobUrl(audioUrl, `wishes/${wishId}_audio.webm`);
+      finalAudio = await blobUrlToBase64(audioUrl);
     }
+    
+    // 2. Compress guest photo to ensure it fits perfectly in Firestore
     if (imageUrl) {
-      uploadedImageUrl = await uploadBase64(imageUrl, `wishes/${wishId}_image.jpg`);
-    }
-    if (signatureData) {
-      uploadedSignatureUrl = await uploadBase64(signatureData, `wishes/${wishId}_signature.png`);
+      finalImage = await compressImage(imageUrl);
     }
 
     const wishData = {
@@ -97,11 +110,12 @@ export async function submitWish(
       message: message.trim(),
       date: new Date().toISOString(),
       createdAt: serverTimestamp(),
-      audioUrl: uploadedAudioUrl || null,
-      imageUrl: uploadedImageUrl || null,
-      signatureData: uploadedSignatureUrl || null
+      audioUrl: finalAudio || null,
+      imageUrl: finalImage || null,
+      signatureData: finalSignature || null
     };
 
+    // 3. Save directly to Cloud Firestore
     const docRef = await addDoc(collection(db, 'wishes'), wishData);
 
     const newWish: GuestWish = {
@@ -115,7 +129,7 @@ export async function submitWish(
       signatureData: wishData.signatureData || undefined
     };
 
-    // Google Sheets Backup (Optional)
+    // Optional Google Sheets Backup
     if (RSVP_ENDPOINT) {
       try {
         const payload = new URLSearchParams();
