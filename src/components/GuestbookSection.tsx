@@ -23,7 +23,7 @@ const relations = [
 ];
 
 export default function GuestbookSection() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const [wishes, setWishes] = useState<GuestWish[]>([]);
   const [name, setName] = useState('');
   const [relation, setRelation] = useState('Friend');
@@ -199,7 +199,7 @@ export default function GuestbookSection() {
           {t('blessings.title')}
         </motion.p>
         <h2 className="section-title" style={{ fontFamily: 'var(--font-script)', color: 'var(--wine)', fontSize: 'clamp(3rem, 6vw, 4rem)' }}>
-          {language === 'ta' ? 'வாழ்த்துச் சுவர்' : 'Wall of Blessing'}
+          Wall of Blessing
         </h2>
         <div className="section-ornament" style={{ width: '80px', height: '2px', background: 'var(--champagne)', margin: '12px auto' }} />
       </div>
@@ -259,7 +259,7 @@ export default function GuestbookSection() {
                 >
                   {relations.map((rel) => (
                     <option key={rel.value} value={rel.value}>
-                      {language === 'ta' ? rel.labelTa : rel.labelEn}
+                      {rel.labelEn}
                     </option>
                   ))}
                 </select>
@@ -461,7 +461,7 @@ export default function GuestbookSection() {
                   boxShadow: '0 4px 15px rgba(107,45,62,0.2)'
                 }}
               >
-                {isSubmitting ? (language === 'ta' ? 'வாழ்த்து சேமிக்கப்படுகிறது...' : 'Syncing Blessing...') : t('blessings.submit')}
+                {isSubmitting ? 'Syncing Blessing...' : t('blessings.submit')}
               </button>
             </form>
           </motion.div>

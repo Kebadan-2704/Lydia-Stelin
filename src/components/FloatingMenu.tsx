@@ -6,12 +6,12 @@ export default function FloatingMenu() {
 
   const links = [
     { name: 'Home', href: '#home' },
-    { name: 'The Couple', href: '#couple' },
-    { name: 'Gallery', href: '#gallery' },
-    { name: 'Events', href: '#events' },
+    { name: 'Our Story', href: '#couple' },
+    { name: 'Schedule', href: '#events' },
     { name: 'Venue', href: '#venue' },
-    { name: 'Blessings', href: '#blessings' },
+    { name: 'Wall of Blessing', href: '#blessings' },
     { name: 'RSVP', href: '#rsvp' },
+    { name: 'Gallery', href: '#gallery' },
   ];
 
   const handleScroll = (href: string) => {

@@ -18,7 +18,7 @@ const NoteSection = lazy(() => import('./components/NoteSection'));
 const GallerySection = lazy(() => import('./components/GallerySection'));
 const GuestbookSection = lazy(() => import('./components/GuestbookSection'));
 const QuoteTicker = lazy(() => import('./components/QuoteTicker'));
-const MeetTheCrew = lazy(() => import('./components/MeetTheCrew'));
+// const MeetTheCrew = lazy(() => import('./components/MeetTheCrew'));
 
 
 export default function App() {
@@ -39,7 +39,7 @@ export default function App() {
             <CountdownSection />
             <NoteSection />
             <CoupleSection />
-            <MeetTheCrew />
+            {/* <MeetTheCrew /> */}
             <EventsSection />
             <QuoteTicker />
             <OfficiantSection />

@@ -8,6 +8,7 @@ const links = [
   { labelKey: 'nav.gallery', href: '#gallery' },
   { labelKey: 'nav.events', href: '#events' },
   { labelKey: 'nav.venue', href: '#venue' },
+  { labelKey: 'nav.blessings', href: '#guestbook' },
   { labelKey: 'nav.rsvp', href: '#rsvp' },
 ];
 
@@ -15,7 +16,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const { language, setLanguage, t } = useLanguage();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -47,18 +48,18 @@ export default function Navbar() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: scrolled ? '0 30px' : '0 40px',
+          padding: scrolled ? '0 30px' : '0 60px',
           maxWidth: scrolled ? '1200px' : '100%',
           margin: '0 auto',
           left: scrolled ? '16px' : '0px',
           right: scrolled ? '16px' : '0px',
-          height: scrolled ? '64px' : '75px',
+          height: scrolled ? '64px' : '100px',
           borderRadius: scrolled ? '32px' : '0px',
           top: scrolled ? '15px' : '0px',
           boxShadow: scrolled ? '0 10px 30px rgba(107, 45, 62, 0.2)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(212, 165, 116, 0.3)' : '1px solid rgba(255, 255, 255, 0.08)',
-          background: scrolled ? 'rgba(74, 21, 37, 0.94)' : 'rgba(74, 21, 37, 0.75)',
-          backdropFilter: 'blur(20px)',
+          borderBottom: scrolled ? '1px solid rgba(212, 165, 116, 0.3)' : 'none',
+          background: scrolled ? 'rgba(74, 21, 37, 0.94)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(20px)' : 'none',
           zIndex: 100000,
           transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
         }}
@@ -109,83 +110,6 @@ export default function Navbar() {
           </div>
         )}
 
-        {/* Desktop Luxury Bilingual Toggle Switch */}
-        {!isMobile && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            style={{
-              display: 'flex',
-              background: 'rgba(255, 255, 255, 0.08)',
-              border: '1px solid rgba(255, 255, 255, 0.15)',
-              borderRadius: '20px',
-              padding: '2px',
-              position: 'relative',
-              cursor: 'pointer',
-              width: '88px',
-              height: '28px',
-              boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.2)'
-            }}
-          >
-            {/* Animated active pill */}
-            <motion.div
-              layout
-              style={{
-                position: 'absolute',
-                top: '2px',
-                bottom: '2px',
-                left: language === 'en' ? '2px' : '44px',
-                right: language === 'en' ? '44px' : '2px',
-                background: 'var(--champagne)',
-                borderRadius: '16px',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
-                zIndex: 1
-              }}
-              transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            />
-
-            {/* Buttons */}
-            <button
-              onClick={() => setLanguage('en')}
-              style={{
-                flex: 1,
-                background: 'none',
-                border: 'none',
-                color: language === 'en' ? 'var(--wine)' : 'var(--ivory-warm)',
-                fontFamily: 'var(--font-display)',
-                fontSize: '0.55rem',
-                fontWeight: 'bold',
-                letterSpacing: '0.5px',
-                zIndex: 2,
-                cursor: 'pointer',
-                padding: 0,
-                transition: 'color 0.25s'
-              }}
-            >
-              EN
-            </button>
-            <button
-              onClick={() => setLanguage('ta')}
-              style={{
-                flex: 1,
-                background: 'none',
-                border: 'none',
-                color: language === 'ta' ? 'var(--wine)' : 'var(--ivory-warm)',
-                fontFamily: 'var(--font-display)',
-                fontSize: '0.55rem',
-                fontWeight: 'bold',
-                letterSpacing: '0.5px',
-                zIndex: 2,
-                cursor: 'pointer',
-                padding: 0,
-                transition: 'color 0.25s'
-              }}
-            >
-              தமிழ்
-            </button>
-          </motion.div>
-        )}
 
         {/* Mobile Hamburger Button */}
         {isMobile && (
@@ -265,82 +189,7 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Mobile Luxury Bilingual Toggle Switch */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              style={{
-                display: 'flex',
-                background: 'rgba(255, 255, 255, 0.08)',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
-                borderRadius: '20px',
-                padding: '2px',
-                position: 'relative',
-                cursor: 'pointer',
-                width: '110px',
-                height: '34px',
-                boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.2)',
-                marginTop: '10px'
-              }}
-            >
-              {/* Animated active pill */}
-              <motion.div
-                layout
-                style={{
-                  position: 'absolute',
-                  top: '2px',
-                  bottom: '2px',
-                  left: language === 'en' ? '2px' : '54px',
-                  right: language === 'en' ? '54px' : '2px',
-                  background: 'var(--champagne)',
-                  borderRadius: '16px',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
-                  zIndex: 1
-                }}
-                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-              />
 
-              {/* Buttons */}
-              <button
-                onClick={() => setLanguage('en')}
-                style={{
-                  flex: 1,
-                  background: 'none',
-                  border: 'none',
-                  color: language === 'en' ? 'var(--wine)' : 'var(--ivory-warm)',
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '0.65rem',
-                  fontWeight: 'bold',
-                  letterSpacing: '0.5px',
-                  zIndex: 2,
-                  cursor: 'pointer',
-                  padding: 0,
-                  transition: 'color 0.25s'
-                }}
-              >
-                EN
-              </button>
-              <button
-                onClick={() => setLanguage('ta')}
-                style={{
-                  flex: 1,
-                  background: 'none',
-                  border: 'none',
-                  color: language === 'ta' ? 'var(--wine)' : 'var(--ivory-warm)',
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '0.65rem',
-                  fontWeight: 'bold',
-                  letterSpacing: '0.5px',
-                  zIndex: 2,
-                  cursor: 'pointer',
-                  padding: 0,
-                  transition: 'color 0.25s'
-                }}
-              >
-                தமிழ்
-              </button>
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

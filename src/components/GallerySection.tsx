@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useLanguage } from '../context/LanguageContext';
+
 
 export default function GallerySection() {
-  const { language } = useLanguage();
+  
   const letters = Array.from("Coming Soon");
 
   // File Upload states
@@ -116,10 +116,10 @@ export default function GallerySection() {
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         >
-          {language === 'ta' ? 'நினைவுகள்' : 'Moments'}
+          {'Moments'}
         </motion.p>
         <h2 className="section-title">
-          {language === 'ta' ? 'திருமணம்' : 'Photo Gallery'}
+          {'Photo Gallery'}
         </h2>
         <motion.div
           className="section-ornament"
@@ -191,7 +191,7 @@ export default function GallerySection() {
             marginBottom: '60px'
           }}
         >
-          {language === 'ta' ? 'அழகான நினைவுகள் விரைவில் இங்கே பகிரப்படும்.' : 'Beautiful moments will be shared here.'}
+          {'Beautiful moments will be shared here.'}
         </motion.p>
 
         {/* Candid Photo Upload Vault Card */}
@@ -243,13 +243,11 @@ export default function GallerySection() {
                 </motion.div>
 
                 <h4 style={{ fontFamily: 'var(--font-display)', color: 'var(--wine)', fontSize: '1.2rem', letterSpacing: '1px', marginBottom: '10px', textTransform: 'uppercase' }}>
-                  {language === 'ta' ? 'நினைவுகளை சேகரிக்க உதவவும்' : 'Help Us Capture the Moments'}
+                  {'Help Us Capture the Moments'}
                 </h4>
                 
                 <p style={{ fontFamily: 'var(--font-serif)', color: 'var(--text-body)', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '24px' }}>
-                  {language === 'ta'
-                    ? 'எங்கள் திருமண நாளை உங்கள் கண்களின் வழியே காண ஆசைப்படுகிறோம்! விழாவின் போது நீங்கள் எடுக்கும் அழகான புகைப்படங்களை எங்களோடு பகிர்ந்து கொள்ளுங்கள்.'
-                    : 'We would absolutely love to see our wedding day through your eyes! Please share any candid photos, sweet snapshots, and memories you capture on your phones during the celebration.'}
+                  {'We would absolutely love to see our wedding day through your eyes! Please share any candid photos, sweet snapshots, and memories you capture on your phones during the celebration.'}
                 </p>
 
                 <motion.button
@@ -273,7 +271,7 @@ export default function GallerySection() {
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                 >
-                  {language === 'ta' ? 'புகைப்படங்களை தேர்ந்தெடுக்கவும்' : 'SELECT PHOTOS FROM GALLERY'}
+                  {'SELECT PHOTOS FROM GALLERY'}
                 </motion.button>
               </motion.div>
             )}
@@ -287,18 +285,18 @@ export default function GallerySection() {
                 style={{ textAlign: 'center' }}
               >
                 <h4 style={{ fontFamily: 'var(--font-display)', color: 'var(--wine)', fontSize: '1.1rem', letterSpacing: '1px', marginBottom: '16px', textTransform: 'uppercase' }}>
-                  {language === 'ta' ? 'தேர்ந்தெடுக்கப்பட்ட புகைப்படங்கள்' : 'Selected Memories'} ({previews.length})
+                  {'Selected Memories'} ({previews.length})
                 </h4>
 
                 {/* Elegant Guest Name input before uploading */}
                 <div style={{ maxWidth: '380px', margin: '0 auto 20px', textAlign: 'left' }}>
                   <label style={{ display: 'block', fontFamily: 'var(--font-display)', fontSize: '0.7rem', color: 'var(--wine)', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px', fontWeight: 'bold' }}>
-                    {language === 'ta' ? 'உங்கள் பெயர்' : 'Your Name'} <span style={{ color: 'red' }}>*</span>
+                    {'Your Name'} <span style={{ color: 'red' }}>*</span>
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder={language === 'ta' ? 'எ.கா. முரளிதரன்' : 'e.g. Muralidharan'}
+                    placeholder={'e.g. Muralidharan'}
                     value={guestName}
                     onChange={(e) => setGuestName(e.target.value)}
                     style={{
@@ -361,7 +359,7 @@ export default function GallerySection() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    {language === 'ta' ? 'மாற்றவும்' : 'CHANGE PHOTOS'}
+                    {'CHANGE PHOTOS'}
                   </motion.button>
 
                   <motion.button
@@ -383,7 +381,7 @@ export default function GallerySection() {
                     whileHover={guestName.trim() ? { scale: 1.02 } : {}}
                     whileTap={guestName.trim() ? { scale: 0.98 } : {}}
                   >
-                    {language === 'ta' ? 'பதிவேற்றவும் 📂' : 'UPLOAD TO WEDDING VAULT 📂'}
+                    {'UPLOAD TO WEDDING VAULT 📂'}
                   </motion.button>
                 </div>
               </motion.div>
@@ -400,13 +398,13 @@ export default function GallerySection() {
                 <div style={{ fontSize: '2.5rem', marginBottom: '16px' }}>📁</div>
                 <h5 style={{ fontFamily: 'var(--font-display)', color: 'var(--wine)', fontSize: '1rem', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>
                   {progress < 40 
-                    ? (language === 'ta' ? 'கோப்புகளை தயார் செய்கிறது...' : 'PREPARING PHOTO PACKAGE...')
+                    ? ('PREPARING PHOTO PACKAGE...')
                     : progress < 80
-                    ? (language === 'ta' ? 'மணமக்களின் பெட்டகத்திற்குப் பதிவேற்றுகிறது...' : 'UPLOADING TO THE COVENANT VAULT...')
-                    : (language === 'ta' ? 'கோப்புறைகளாக ஒழுங்கமைக்கிறது...' : 'ORGANIZING INTO ADMIN FOLDERS... 📂')}
+                    ? ('UPLOADING TO THE COVENANT VAULT...')
+                    : ('ORGANIZING INTO ADMIN FOLDERS... 📂')}
                 </h5>
                 <p style={{ fontFamily: 'var(--font-serif)', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '20px' }}>
-                  {language === 'ta' ? 'தயவுசெய்து காத்திருக்கவும், நினைவுகள் சேமிக்கப்படுகின்றன...' : 'Please stay on this page, securing your captures...'}
+                  {'Please stay on this page, securing your captures...'}
                 </p>
 
                 {/* Granular Gold Progress Bar */}
@@ -439,13 +437,11 @@ export default function GallerySection() {
                 </motion.div>
 
                 <h4 style={{ fontFamily: 'var(--font-display)', color: 'var(--wine)', fontSize: '1.2rem', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>
-                  {language === 'ta' ? 'பதிவேற்றம் வெற்றிகரமாக முடிந்தது!' : 'UPLOAD SUCCESSFULLY COMPLETED!'}
+                  {'UPLOAD SUCCESSFULLY COMPLETED!'}
                 </h4>
                 
                 <p style={{ fontFamily: 'var(--font-serif)', color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.6, maxWidth: '440px', margin: '0 auto 24px' }}>
-                  {language === 'ta'
-                    ? 'உங்கள் புகைப்படங்கள் வெற்றிகரமாக திருமண காப்பகத்தில் சேமிக்கப்பட்டு கோப்புறைகளாக ஒழுங்கமைக்கப்பட்டுள்ளன. மிக்க நன்றி!'
-                    : 'Your sweet candid photos are securely archived in high-quality administrative folders under your name. Thank you so much! 💖'}
+                  {'Your sweet candid photos are securely archived in high-quality administrative folders under your name. Thank you so much! 💖'}
                 </p>
 
                 <motion.button
@@ -468,7 +464,7 @@ export default function GallerySection() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  {language === 'ta' ? 'மேலும் புகைப்படங்கள் பதிவேற்றவும்' : 'UPLOAD MORE MEMORIES'}
+                  {'UPLOAD MORE MEMORIES'}
                 </motion.button>
               </motion.div>
             )}

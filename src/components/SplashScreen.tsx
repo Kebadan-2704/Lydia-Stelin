@@ -263,7 +263,7 @@ export default function SplashScreen({ onEnter, visible }: SplashScreenProps) {
                   animate={{ scaleX: 1 }}
                   transition={{ delay: 0.6, duration: 1, ease: [0.16, 1, 0.3, 1] }}
                   style={{
-                    width: '80px', height: '2px', marginBottom: '20px',
+                    width: '80px', height: '2px', margin: '0 auto 20px auto',
                     background: 'linear-gradient(90deg, transparent, var(--champagne), transparent)'
                   }}
                 />
@@ -299,7 +299,7 @@ export default function SplashScreen({ onEnter, visible }: SplashScreenProps) {
                   animate={{ scaleX: 1 }}
                   transition={{ delay: 2.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}
                   style={{
-                    width: '80px', height: '2px', marginTop: '20px',
+                    width: '80px', height: '2px', margin: '20px auto 0 auto',
                     background: 'linear-gradient(90deg, transparent, var(--champagne), transparent)'
                   }}
                 />

@@ -43,6 +43,7 @@ body {
 .hero-date {
   font-size: clamp(0.85rem, 2vw, 1.15rem);
   letter-spacing: 6px;
+  text-align: center;
 }
 
 .hero-venue-text {

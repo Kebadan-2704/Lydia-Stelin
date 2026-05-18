@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { useLanguage } from '../context/LanguageContext';
+
 
 const events = [
   {
@@ -50,8 +50,7 @@ const cardVariants: Variants = {
 };
 
 export default function EventsSection() {
-  const { language } = useLanguage();
-  const sectionRef = useRef<HTMLDivElement>(null);
+    const sectionRef = useRef<HTMLDivElement>(null);
   const [showCalendarMenu, setShowCalendarMenu] = useState(false);
   const calendarMenuRef = useRef<HTMLDivElement>(null);
 
@@ -111,10 +110,10 @@ export default function EventsSection() {
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         >
-          {language === 'ta' ? 'நிகழ்ச்சி நிரல்' : 'Schedule'}
+          {'Schedule'}
         </motion.p>
         <h2 className="section-title">
-          {language === 'ta' ? 'திருமணத் திருநாள்' : 'Wedding Day'}
+          {'Wedding Day'}
         </h2>
         <motion.div
           className="section-ornament"
@@ -149,10 +148,10 @@ export default function EventsSection() {
             </motion.span>
             <p className="event-time">{event.time}</p>
             <p className="event-name">
-              {language === 'ta' ? event.nameTa : event.nameEn}
+              {event.nameEn}
             </p>
             <p className="event-desc">
-              {language === 'ta' ? event.descTa : event.descEn}
+              {event.descEn}
             </p>
           </motion.div>
         ))}
@@ -173,7 +172,7 @@ export default function EventsSection() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              📅 {language === 'ta' ? 'நாள்காட்டியில் சேர்க்க' : 'Add to Calendar'}
+              📅 {'Add to Calendar'}
             </motion.button>
  
             <AnimatePresence>
@@ -281,11 +280,11 @@ export default function EventsSection() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              📹 {language === 'ta' ? 'நேரடி ஒளிபரப்பில் இணையுங்கள்' : 'Join Live Stream'}
+              📹 {'Join Live Stream'}
             </motion.a>
           ) : (
             <span className="venue-map-btn venue-map-btn-disabled" aria-disabled="true" style={{ padding: '12px 24px', fontSize: '0.65rem', opacity: 0.6 }}>
-              📹 {language === 'ta' ? 'நேரடி ஒளிபரப்பு விரைவில்' : 'Live Stream Scheduled'}
+              📹 {'Live Stream Scheduled'}
             </span>
           )}
         </div>
@@ -302,8 +301,7 @@ interface LiveStreamCardProps {
 }
 
 function LiveStreamCard({ liveStreamUrl }: LiveStreamCardProps) {
-  const { language } = useLanguage();
-  const [showHurryMessage, setShowHurryMessage] = useState(false);
+    const [showHurryMessage, setShowHurryMessage] = useState(false);
 
   const handleYoutubeClick = (e: React.MouseEvent) => {
     const weddingDate = new Date('2026-07-22T00:00:00+05:30');
@@ -352,17 +350,15 @@ function LiveStreamCard({ liveStreamUrl }: LiveStreamCardProps) {
             border: '1px solid #d4a57433'
           }}
         >
-          {language === 'ta' ? 'இணைய வழி ஒளிபரப்பு' : 'VIRTUAL ATTENDANCE PORTAL'}
+          {'VIRTUAL ATTENDANCE PORTAL'}
         </span>
       </div>
 
       <h3 style={{ fontFamily: 'var(--font-serif)', color: 'var(--wine)', fontSize: '1.4rem', marginBottom: '12px' }}>
-        {language === 'ta' ? 'எங்கிருந்தும் எங்களுடன் இணைந்து கொண்டாடுங்கள்' : 'Celebrate with us from anywhere'}
+        {'Celebrate with us from anywhere'}
       </h3>
       <p style={{ fontFamily: 'var(--font-serif)', color: 'var(--text-muted)', fontSize: '0.85rem', maxWidth: '500px', margin: '0 auto 30px', lineHeight: 1.6 }}>
-        {language === 'ta' 
-          ? 'நீங்கள் இணையம் வழியாக எங்களது திருமணத்தில் கலந்துகொண்டு எங்களை ஆசீர்வதிக்க அன்புடன் அழைக்கிறோம்!'
-          : 'We warmly invite you to join our wedding virtually and shower your blessings from the comfort of your home!'}
+        {'We warmly invite you to join our wedding virtually and shower your blessings from the comfort of your home!'}
       </p>
 
       {/* Pulsing red YouTube symbol / play button */}
@@ -400,9 +396,7 @@ function LiveStreamCard({ liveStreamUrl }: LiveStreamCardProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              {language === 'ta'
-                ? 'இணைய வழி நேரடி ஒளிபரப்பைக் காண YouTube குறியீட்டை அழுத்தவும்.'
-                : 'Click the YouTube icon to join our virtual broadcast.'}
+              {'Click the YouTube icon to join our virtual broadcast.'}
             </motion.span>
           ) : (
             <motion.span
@@ -412,9 +406,7 @@ function LiveStreamCard({ liveStreamUrl }: LiveStreamCardProps) {
               exit={{ opacity: 0, y: -5 }}
               style={{ color: 'var(--wine)', fontWeight: 'bold', display: 'block' }}
             >
-              ⏳ {language === 'ta'
-                ? 'அவசரப்பட வேண்டாம், திருமணத்திற்கு இன்னும் நாட்கள் உள்ளன! ⏳'
-                : "Don't be in a hurry, we have more days! ⏳"}
+              ⏳ {"Don't be in a hurry, we have more days! ⏳"}
             </motion.span>
           )}
         </AnimatePresence>
