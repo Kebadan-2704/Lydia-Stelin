@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getWishes, submitWish } from '../services/guestbookService';
+import { subscribeToWishes, submitWish } from '../services/guestbookService';
 import type { GuestWish } from '../services/guestbookService';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -51,7 +51,8 @@ export default function GuestbookSection() {
   const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
-    setWishes(getWishes());
+    const unsubscribe = subscribeToWishes(setWishes);
+    return () => unsubscribe();
   }, []);
 
   // 1. Audio Blessing Recording Logic
@@ -166,8 +167,7 @@ export default function GuestbookSection() {
 
     setIsSubmitting(true);
     try {
-      const added = await submitWish(name, relation, message, recordedAudio, uploadedImg, signatureImg);
-      setWishes((prev) => [...prev, added]);
+      await submitWish(name, relation, message, recordedAudio, uploadedImg, signatureImg);
       setName('');
       setMessage('');
       setRelation('Friend');
