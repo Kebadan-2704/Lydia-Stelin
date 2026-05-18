@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { CSSProperties } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
@@ -50,6 +50,14 @@ const particles = Array.from({ length: 20 }).map(() => ({
 
 export default function SplashScreen({ onEnter, visible }: SplashScreenProps) {
   const [isOpening, setIsOpening] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleOpen = () => {
     setIsOpening(true);
@@ -66,24 +74,40 @@ export default function SplashScreen({ onEnter, visible }: SplashScreenProps) {
           style={{ background: '#2c141d', perspective: '1000px', overflow: 'hidden' }}
         >
           {/* Background Video */}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            style={{
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              opacity: 0.4,
-              zIndex: 0,
-              pointerEvents: 'none',
-              filter: 'blur(2px) brightness(0.8)'
-            }}
-          >
-            <source src="/videos/balloon.mp4" type="video/mp4" />
-          </video>
+          {!isMobile ? (
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              style={{
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                opacity: 0.4,
+                zIndex: 0,
+                pointerEvents: 'none',
+                filter: 'blur(2px) brightness(0.8)'
+              }}
+            >
+              <source src="/videos/balloon.mp4" type="video/mp4" />
+            </video>
+          ) : (
+            <div
+              style={{
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                backgroundImage: 'url(/images/hero-bg.png)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                opacity: 0.4,
+                zIndex: 0,
+                pointerEvents: 'none',
+              }}
+            />
+          )}
 
           {/* Wine-tinted overlay for richness */}
           <div style={{

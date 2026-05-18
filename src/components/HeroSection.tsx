@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import gsap from 'gsap';
@@ -37,6 +37,14 @@ function StaggeredName({ text, fromLeft }: { text: string; fromLeft?: boolean })
 export default function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (!heroRef.current || !bgRef.current) return;
@@ -60,19 +68,33 @@ export default function HeroSection() {
   return (
     <section className="hero" ref={heroRef} id="home">
       <div className="hero-bg" ref={bgRef}>
-        <video
-          autoPlay loop muted playsInline
-          poster="/images/hero-bg.png"
-          style={{
-            position: 'absolute',
-            top: '50%', left: '50%',
-            width: '100vw', height: '100vh',
-            transform: 'translate(-50%, -50%)',
-            objectFit: 'cover', opacity: 0.8, zIndex: 0
-          }}
-        >
-          <source src="/videos/189020-884234925_medium.mp4" type="video/mp4" />
-        </video>
+        {!isMobile ? (
+          <video
+            autoPlay loop muted playsInline
+            poster="/images/hero-bg.png"
+            style={{
+              position: 'absolute',
+              top: '50%', left: '50%',
+              width: '100vw', height: '100vh',
+              transform: 'translate(-50%, -50%)',
+              objectFit: 'cover', opacity: 0.8, zIndex: 0
+            }}
+          >
+            <source src="/videos/189020-884234925_medium.mp4" type="video/mp4" />
+          </video>
+        ) : (
+          <div
+            style={{
+              position: 'absolute',
+              top: 0, left: 0,
+              width: '100vw', height: '100vh',
+              backgroundImage: 'url(/images/hero-bg.png)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              opacity: 0.8, zIndex: 0
+            }}
+          />
+        )}
       </div>
 
       <div className="hero-content">
