@@ -241,7 +241,9 @@ export default function GuestbookSection() {
                     border: '1px solid rgba(107, 45, 62, 0.15)',
                     fontFamily: 'var(--font-serif)',
                     outline: 'none',
-                    background: 'var(--ivory-warm)'
+                    background: 'var(--ivory-warm)',
+                    width: '100%',
+                    boxSizing: 'border-box'
                   }}
                 />
                 <select
@@ -254,7 +256,9 @@ export default function GuestbookSection() {
                     fontFamily: 'var(--font-serif)',
                     outline: 'none',
                     background: 'var(--ivory-warm)',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    width: '100%',
+                    boxSizing: 'border-box'
                   }}
                 >
                   {relations.map((rel) => (
@@ -278,7 +282,9 @@ export default function GuestbookSection() {
                   fontFamily: 'var(--font-serif)',
                   outline: 'none',
                   background: 'var(--ivory-warm)',
-                  resize: 'none'
+                  resize: 'none',
+                  width: '100%',
+                  boxSizing: 'border-box'
                 }}
               />
 

@@ -89,7 +89,7 @@ export default function VenueSection() {
             </motion.p>
             <motion.div
               className="section-ornament"
-              style={{ margin: '12px 0' }}
+              style={{ margin: '12px auto' }}
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
