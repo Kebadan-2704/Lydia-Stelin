@@ -482,3 +482,20 @@ body {
   box-shadow: 0 8px 30px rgba(107, 45, 62, 0.25) !important;
 }
 
+/* ========== SCROLL INDICATOR RESPONSIVENESS ========== */
+.desktop-scroll {
+  display: flex;
+}
+.mobile-scroll {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-scroll {
+    display: none !important;
+  }
+  .mobile-scroll {
+    display: flex !important;
+  }
+}
+

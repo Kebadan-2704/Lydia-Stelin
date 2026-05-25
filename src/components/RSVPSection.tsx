@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { isRsvpConfigured, submitRsvpToGoogleSheets } from '../services/rsvpService';
 import type { RSVPFormData } from '../services/rsvpService';
 import { useLanguage } from '../context/LanguageContext';
+import confetti from 'canvas-confetti';
 
 type RSVPStatus = 'idle' | 'loading' | 'success' | 'error';
 
@@ -31,6 +32,12 @@ export default function RSVPSection() {
       return;
     }
 
+    if (!formData.phone.trim()) {
+      setStatus('error');
+      setErrorMessage('Please enter your phone number.');
+      return;
+    }
+
     if (!isRsvpConfigured()) {
       setStatus('error');
       setErrorMessage('RSVP is not connected yet. Add your Google Apps Script URL to VITE_RSVP_ENDPOINT.');
@@ -43,6 +50,15 @@ export default function RSVPSection() {
       await submitRsvpToGoogleSheets(formData);
       setSubmitted(true);
       setStatus('success');
+      
+      // Trigger confetti explosion
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#6b2d3e', '#d4a574', '#c9a84c', '#ffffff']
+      });
+      
     } catch {
       setStatus('error');
       setErrorMessage('We could not send your RSVP. Please try again in a moment.');
@@ -71,7 +87,10 @@ export default function RSVPSection() {
         </h2>
         <div className="section-ornament" style={{ width: '80px', height: '2px', background: 'var(--champagne)', margin: '12px auto' }} />
         <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1rem', color: 'var(--text-muted)', fontStyle: 'italic', marginTop: 12 }}>
-          Kindly respond before July 10, 2026
+          Kindly respond before July 18, 2026
+        </p>
+        <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.75rem', color: 'var(--wine-light)', fontWeight: 'bold', marginTop: 16, textTransform: 'uppercase', letterSpacing: '2px' }}>
+          Please fill this out, it is mandatory
         </p>
       </motion.div>
 
@@ -115,6 +134,7 @@ export default function RSVPSection() {
                 placeholder={t('rsvp.phone')}
                 value={formData.phone}
                 onChange={handleChange}
+                required
                 style={{ padding: '14px', borderRadius: '8px', border: '1px solid rgba(107,45,62,0.2)', fontFamily: 'var(--font-serif)', outline: 'none' }}
               />
 

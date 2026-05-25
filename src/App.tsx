@@ -1,4 +1,5 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, lazy, Suspense, useEffect } from 'react';
+import Lenis from 'lenis';
 import SplashScreen from './components/SplashScreen';
 import HeroSection from './components/HeroSection';
 import Navbar from './components/Navbar';
@@ -23,6 +24,16 @@ const QuoteTicker = lazy(() => import('./components/QuoteTicker'));
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      autoRaf: true,
+    });
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
 
   return (
     <LanguageProvider>

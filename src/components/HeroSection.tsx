@@ -160,12 +160,39 @@ export default function HeroSection() {
 
       <motion.div
         className="hero-scroll-indicator"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ delay: 3, duration: 1 }}
       >
-        <span className="scroll-text">Scroll</span>
-        <div className="scroll-line" />
+        {/* Desktop Raindrop Scroll */}
+        <div className="desktop-scroll" style={{ flexDirection: 'column', alignItems: 'center' }}>
+          <span className="scroll-text">Scroll</span>
+          <div style={{ 
+            width: '1px', 
+            height: '40px', 
+            background: 'rgba(212, 165, 116, 0.2)', 
+            position: 'relative', 
+            overflow: 'hidden', 
+            marginTop: '10px' 
+          }}>
+            <motion.div
+              animate={{ y: ['-100%', '100%'] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+              style={{ width: '100%', height: '50%', background: 'var(--champagne)' }}
+            />
+          </div>
+        </div>
+
+        {/* Mobile Bouncing Scroll */}
+        <motion.div
+          className="mobile-scroll"
+          animate={{ y: [0, 8, 0], opacity: [0.6, 1, 0.6] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          style={{ flexDirection: 'column', alignItems: 'center' }}
+        >
+          <span className="scroll-text">Swipe</span>
+          <div className="scroll-line" style={{ marginTop: '10px' }} />
+        </motion.div>
       </motion.div>
     </section>
   );

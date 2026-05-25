@@ -375,6 +375,40 @@ export default function SplashScreen({ onEnter, visible }: SplashScreenProps) {
                     <span style={{ fontFamily: 'var(--font-script)', fontSize: '1.8rem', color: 'var(--champagne)', margin: '-5px 0 0', fontWeight: 'bold' }}>S</span>
                   </div>
                 </motion.button>
+                <motion.div
+                  initial={{ opacity: 0, y: 0 }}
+                  animate={isOpening ? { opacity: 0, scale: 0.8 } : { opacity: 1, y: [0, -5, 0] }}
+                  transition={{ 
+                    delay: isOpening ? 0 : 3.5, 
+                    y: {
+                      duration: 1.5,
+                      repeat: isOpening ? 0 : Infinity,
+                      ease: "easeInOut"
+                    },
+                    opacity: { duration: 0.5 }
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: 'calc(100% + 24px)',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: 'max-content',
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '0.7rem',
+                    fontWeight: 600,
+                    letterSpacing: '2px',
+                    textTransform: 'uppercase',
+                    color: 'var(--champagne)',
+                    background: 'rgba(44, 20, 29, 0.9)',
+                    padding: '8px 16px',
+                    borderRadius: '24px',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
+                    pointerEvents: 'none',
+                    border: '1px solid rgba(212, 165, 116, 0.4)'
+                  }}
+                >
+                  Tap the seal to open
+                </motion.div>
               </div>
             </motion.div>
             </motion.div>
