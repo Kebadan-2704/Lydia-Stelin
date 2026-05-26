@@ -14,16 +14,6 @@ export default function GallerySection() {
   const [uploaded, setUploaded] = useState(false);
   const [guestName, setGuestName] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
-  // Lightbox State
-  const [selectedImage, setSelectedImage] = useState<{src: string, id: string} | null>(null);
-
-  const galleryImages = [
-    '/images/gallery-1.png',
-    '/images/gallery-2.png',
-    '/images/gallery-3.png',
-    '/images/couple.png'
-  ];
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -482,42 +472,6 @@ export default function GallerySection() {
         </motion.div>
 
       </div>
-
-      {/* Lightbox Modal */}
-      <AnimatePresence>
-        {selectedImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedImage(null)}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              background: 'rgba(0, 0, 0, 0.9)',
-              zIndex: 99999,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'zoom-out',
-              padding: '20px'
-            }}
-          >
-            <motion.img
-              layoutId={selectedImage.id}
-              src={selectedImage.src}
-              alt="Expanded"
-              style={{
-                maxWidth: '100%',
-                maxHeight: '100%',
-                objectFit: 'contain',
-                borderRadius: '12px',
-                boxShadow: '0 25px 60px rgba(0,0,0,0.5)'
-              }}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }
