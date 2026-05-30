@@ -70,6 +70,7 @@ export default function VenueSection() {
           whileHover={!show360 ? { scale: 1.03 } : { scale: 1 }}
           transition={{ duration: 0.5 }}
           onMouseEnter={() => setShow360(true)}
+          onClick={() => setShow360(true)}
         >
           <img 
             src="/images/venue.png" 
