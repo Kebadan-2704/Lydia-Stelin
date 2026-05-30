@@ -183,6 +183,12 @@ export default function GuestbookSection() {
     }
   };
 
+  // Small random rotations for pinned-to-wall feel
+  const getCardRotation = (index: number) => {
+    const rotations = [-1.5, 0.8, -0.5, 1.2, -1, 0.3, 1.5, -0.8, 0.6, -1.2];
+    return rotations[index % rotations.length];
+  };
+
   return (
     <section className="guestbook-section section" id="guestbook" style={{ background: 'var(--ivory-warm)', position: 'relative', overflow: 'hidden', padding: '100px 20px' }}>
       
@@ -204,37 +210,87 @@ export default function GuestbookSection() {
         <div className="section-ornament" style={{ width: '80px', height: '2px', background: 'var(--champagne)', margin: '12px auto' }} />
       </div>
 
-      <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
-        
+      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
 
+        {/* ── 3-Column Wall: Blessings surround the Form ── */}
+        <div className="blessing-wall-grid">
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '40px', alignItems: 'start' }}>
-          
-          {/* B. The Rich Interactive Submission Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            style={{
-              background: '#ffffff',
-              borderRadius: '24px',
-              padding: '40px 30px',
-              border: '1.5px solid var(--champagne)',
-              boxShadow: '0 20px 50px rgba(107, 45, 62, 0.05)'
-            }}
-          >
-            <h3 style={{ fontFamily: 'var(--font-serif)', color: 'var(--wine)', fontSize: '1.3rem', marginBottom: '24px', textAlign: 'center' }}>
-              Leave a Keepsake Blessing
-            </h3>
+          {/* LEFT COLUMN — Blessing cards */}
+          <div className="blessing-wall-col">
+            {wishes.slice(0, 30).filter((_, i) => i % 3 === 0).map((wish, idx) => {
+              const originalIndex = idx * 3;
+              return renderBlessingCard(wish, originalIndex);
+            })}
+          </div>
 
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                <input
-                  type="text"
-                  placeholder="Your Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+          {/* CENTER COLUMN — Form at top, then blessing cards below */}
+          <div className="blessing-wall-col blessing-wall-col-center">
+            {/* Centered Submission Form Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              style={{
+                background: '#ffffff',
+                borderRadius: '24px',
+                padding: '36px 30px',
+                border: '1.5px solid var(--champagne)',
+                boxShadow: '0 20px 50px rgba(107, 45, 62, 0.05)',
+                marginBottom: '24px'
+              }}
+            >
+              <h3 style={{ fontFamily: 'var(--font-serif)', color: 'var(--wine)', fontSize: '1.3rem', marginBottom: '24px', textAlign: 'center' }}>
+                Leave a Keepsake Blessing
+              </h3>
+
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    style={{
+                      padding: '14px',
+                      borderRadius: '8px',
+                      border: '1px solid rgba(107, 45, 62, 0.15)',
+                      fontFamily: 'var(--font-serif)',
+                      outline: 'none',
+                      background: 'var(--ivory-warm)',
+                      width: '100%',
+                      boxSizing: 'border-box'
+                    }}
+                  />
+                  <select
+                    value={relation}
+                    onChange={(e) => setRelation(e.target.value)}
+                    style={{
+                      padding: '14px',
+                      borderRadius: '8px',
+                      border: '1px solid rgba(107, 45, 62, 0.15)',
+                      fontFamily: 'var(--font-serif)',
+                      outline: 'none',
+                      background: 'var(--ivory-warm)',
+                      cursor: 'pointer',
+                      width: '100%',
+                      boxSizing: 'border-box'
+                    }}
+                  >
+                    {relations.map((rel) => (
+                      <option key={rel.value} value={rel.value}>
+                        {rel.labelEn}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <textarea
+                  placeholder={t('blessings.placeholder')}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                   required
+                  rows={3}
                   style={{
                     padding: '14px',
                     borderRadius: '8px',
@@ -242,308 +298,350 @@ export default function GuestbookSection() {
                     fontFamily: 'var(--font-serif)',
                     outline: 'none',
                     background: 'var(--ivory-warm)',
+                    resize: 'none',
                     width: '100%',
                     boxSizing: 'border-box'
                   }}
                 />
-                <select
-                  value={relation}
-                  onChange={(e) => setRelation(e.target.value)}
-                  style={{
-                    padding: '14px',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(107, 45, 62, 0.15)',
-                    fontFamily: 'var(--font-serif)',
-                    outline: 'none',
-                    background: 'var(--ivory-warm)',
-                    cursor: 'pointer',
-                    width: '100%',
-                    boxSizing: 'border-box'
-                  }}
-                >
-                  {relations.map((rel) => (
-                    <option key={rel.value} value={rel.value}>
-                      {rel.labelEn}
-                    </option>
-                  ))}
-                </select>
-              </div>
 
-              <textarea
-                placeholder={t('blessings.placeholder')}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                required
-                rows={4}
-                style={{
-                  padding: '14px',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(107, 45, 62, 0.15)',
-                  fontFamily: 'var(--font-serif)',
-                  outline: 'none',
-                  background: 'var(--ivory-warm)',
-                  resize: 'none',
-                  width: '100%',
-                  boxSizing: 'border-box'
-                }}
-              />
-
-              {/* Media attachments console */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
-                
-                {/* 1. Voice mailbox microphone button */}
-                <button
-                  type="button"
-                  onClick={isRecording ? stopRecording : startRecording}
-                  style={{
-                    padding: '10px 16px',
-                    borderRadius: '20px',
-                    border: '1px solid rgba(107, 45, 62, 0.15)',
-                    background: isRecording ? 'var(--wine)' : '#ffffff',
-                    color: isRecording ? '#ffffff' : 'var(--wine)',
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '0.6rem',
-                    letterSpacing: '1px',
-                    fontWeight: 'bold',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    boxShadow: '0 4px 10px rgba(0,0,0,0.02)'
-                  }}
-                >
-                  🎙️ {isRecording ? 'Recording (Stop)' : 'Voice Note'}
-                </button>
-
-                {/* 2. Touch Signature gold pad trigger */}
-                <button
-                  type="button"
-                  onClick={() => setShowSignaturePad(true)}
-                  style={{
-                    padding: '10px 16px',
-                    borderRadius: '20px',
-                    border: '1px solid rgba(107, 45, 62, 0.15)',
-                    background: signatureImg ? 'var(--champagne)' : '#ffffff',
-                    color: signatureImg ? '#ffffff' : 'var(--wine)',
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '0.6rem',
-                    letterSpacing: '1px',
-                    fontWeight: 'bold',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px'
-                  }}
-                >
-                  ✍️ {signatureImg ? 'Signature Attached' : 'Draw Initial'}
-                </button>
-
-                {/* 3. Photo upload polaroid trigger */}
-                <label
-                  style={{
-                    padding: '10px 16px',
-                    borderRadius: '20px',
-                    border: '1px solid rgba(107, 45, 62, 0.15)',
-                    background: uploadedImg ? 'var(--champagne)' : '#ffffff',
-                    color: uploadedImg ? '#ffffff' : 'var(--wine)',
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '0.6rem',
-                    letterSpacing: '1px',
-                    fontWeight: 'bold',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px'
-                  }}
-                >
-                  📸 {uploadedImg ? 'Photo Attached' : 'Attach Photo'}
-                  <input type="file" accept="image/*" onChange={handlePhotoUpload} style={{ display: 'none' }} />
-                </label>
-              </div>
-
-              {/* Show recorded voice player preview */}
-              {recordedAudio && (
-                <div style={{ background: 'var(--ivory-warm)', borderRadius: '8px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>🎙️ Playback Voice Blessing</span>
-                  <audio src={recordedAudio} controls style={{ width: '100%', height: '36px' }} />
-                </div>
-              )}
-
-              {/* Interactive Handwritten Calligraphy Pad Modal */}
-              <AnimatePresence>
-                {showSignaturePad && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                {/* Media attachments console */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
+                  
+                  {/* 1. Voice mailbox microphone button */}
+                  <button
+                    type="button"
+                    onClick={isRecording ? stopRecording : startRecording}
                     style={{
-                      position: 'fixed',
-                      inset: 0,
-                      zIndex: 10000,
-                      background: 'rgba(44, 20, 29, 0.65)',
-                      backdropFilter: 'blur(6px)',
+                      padding: '10px 16px',
+                      borderRadius: '20px',
+                      border: '1px solid rgba(107, 45, 62, 0.15)',
+                      background: isRecording ? 'var(--wine)' : '#ffffff',
+                      color: isRecording ? '#ffffff' : 'var(--wine)',
+                      fontFamily: 'var(--font-display)',
+                      fontSize: '0.6rem',
+                      letterSpacing: '1px',
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: '20px'
+                      gap: '6px',
+                      boxShadow: '0 4px 10px rgba(0,0,0,0.02)'
                     }}
                   >
-                    <div style={{ position: 'relative', background: '#ffffff', borderRadius: '20px', border: '1.5px solid var(--champagne)', padding: '24px', maxWidth: '380px', width: '100%', textAlign: 'center' }}>
-                      <button
-                        type="button"
-                        onClick={() => setShowSignaturePad(false)}
-                        style={{
-                          position: 'absolute',
-                          top: '12px',
-                          right: '12px',
-                          background: 'none',
-                          border: 'none',
-                          fontSize: '1.2rem',
-                          color: 'var(--wine)',
-                          cursor: 'pointer',
-                          fontWeight: 'bold',
-                          lineHeight: 1
-                        }}
-                      >
-                        ✕
-                      </button>
-                      <h4 style={{ fontFamily: 'var(--font-serif)', color: 'var(--wine)', marginBottom: '16px' }}>
-                        Draw your Blessing Initial
-                      </h4>
-                      <canvas
-                        ref={canvasRef}
-                        width={300}
-                        height={180}
-                        onMouseDown={startDrawing}
-                        onMouseMove={draw}
-                        onMouseUp={stopDrawing}
-                        onMouseLeave={stopDrawing}
-                        onTouchStart={startDrawing}
-                        onTouchMove={draw}
-                        onTouchEnd={stopDrawing}
-                        style={{
-                          border: '2px solid rgba(212,165,116,0.3)',
-                          borderRadius: '12px',
-                          background: 'var(--ivory-warm)',
-                          cursor: 'crosshair',
-                          display: 'block',
-                          margin: '0 auto 20px'
-                        }}
-                      />
-                      <div style={{ display: 'flex', gap: '12px' }}>
-                        <button type="button" onClick={clearCanvas} style={{ flex: 1, padding: '10px', borderRadius: '8px', border: '1px solid rgba(107,45,62,0.2)', background: 'none', cursor: 'pointer' }}>
-                          Clear
-                        </button>
-                        <button type="button" onClick={saveSignature} style={{ flex: 1, padding: '10px', borderRadius: '8px', background: 'var(--wine)', color: '#ffffff', border: 'none', cursor: 'pointer' }}>
-                          Save Signature
-                        </button>
-                      </div>
-                    </div>
-                  </motion.div>
+                    🎙️ {isRecording ? 'Recording (Stop)' : 'Voice Note'}
+                  </button>
+
+                  {/* 2. Touch Signature gold pad trigger */}
+                  <button
+                    type="button"
+                    onClick={() => setShowSignaturePad(true)}
+                    style={{
+                      padding: '10px 16px',
+                      borderRadius: '20px',
+                      border: '1px solid rgba(107, 45, 62, 0.15)',
+                      background: signatureImg ? 'var(--champagne)' : '#ffffff',
+                      color: signatureImg ? '#ffffff' : 'var(--wine)',
+                      fontFamily: 'var(--font-display)',
+                      fontSize: '0.6rem',
+                      letterSpacing: '1px',
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}
+                  >
+                    ✍️ {signatureImg ? 'Signature Attached' : 'Draw Initial'}
+                  </button>
+
+                  {/* 3. Photo upload polaroid trigger */}
+                  <label
+                    style={{
+                      padding: '10px 16px',
+                      borderRadius: '20px',
+                      border: '1px solid rgba(107, 45, 62, 0.15)',
+                      background: uploadedImg ? 'var(--champagne)' : '#ffffff',
+                      color: uploadedImg ? '#ffffff' : 'var(--wine)',
+                      fontFamily: 'var(--font-display)',
+                      fontSize: '0.6rem',
+                      letterSpacing: '1px',
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}
+                  >
+                    📸 {uploadedImg ? 'Photo Attached' : 'Attach Photo'}
+                    <input type="file" accept="image/*" onChange={handlePhotoUpload} style={{ display: 'none' }} />
+                  </label>
+                </div>
+
+                {/* Show recorded voice player preview */}
+                {recordedAudio && (
+                  <div style={{ background: 'var(--ivory-warm)', borderRadius: '8px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>🎙️ Playback Voice Blessing</span>
+                    <audio src={recordedAudio} controls style={{ width: '100%', height: '36px' }} />
+                  </div>
                 )}
-              </AnimatePresence>
 
-              {showSuccess && (
-                <p style={{ color: 'var(--olive-dark)', fontSize: '0.8rem', textAlign: 'center', margin: 0 }}>
-                  ✓ Your keepsake blessing has been placed on the Polaroid Wall!
-                </p>
-              )}
+                {/* Interactive Handwritten Calligraphy Pad Modal */}
+                <AnimatePresence>
+                  {showSignaturePad && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      style={{
+                        position: 'fixed',
+                        inset: 0,
+                        zIndex: 10000,
+                        background: 'rgba(44, 20, 29, 0.65)',
+                        backdropFilter: 'blur(6px)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '20px'
+                      }}
+                    >
+                      <div style={{ position: 'relative', background: '#ffffff', borderRadius: '20px', border: '1.5px solid var(--champagne)', padding: '24px', maxWidth: '380px', width: '100%', textAlign: 'center' }}>
+                        <button
+                          type="button"
+                          onClick={() => setShowSignaturePad(false)}
+                          style={{
+                            position: 'absolute',
+                            top: '12px',
+                            right: '12px',
+                            background: 'none',
+                            border: 'none',
+                            fontSize: '1.2rem',
+                            color: 'var(--wine)',
+                            cursor: 'pointer',
+                            fontWeight: 'bold',
+                            lineHeight: 1
+                          }}
+                        >
+                          ✕
+                        </button>
+                        <h4 style={{ fontFamily: 'var(--font-serif)', color: 'var(--wine)', marginBottom: '16px' }}>
+                          Draw your Blessing Initial
+                        </h4>
+                        <canvas
+                          ref={canvasRef}
+                          width={300}
+                          height={180}
+                          onMouseDown={startDrawing}
+                          onMouseMove={draw}
+                          onMouseUp={stopDrawing}
+                          onMouseLeave={stopDrawing}
+                          onTouchStart={startDrawing}
+                          onTouchMove={draw}
+                          onTouchEnd={stopDrawing}
+                          style={{
+                            border: '2px solid rgba(212,165,116,0.3)',
+                            borderRadius: '12px',
+                            background: 'var(--ivory-warm)',
+                            cursor: 'crosshair',
+                            display: 'block',
+                            margin: '0 auto 20px'
+                          }}
+                        />
+                        <div style={{ display: 'flex', gap: '12px' }}>
+                          <button type="button" onClick={clearCanvas} style={{ flex: 1, padding: '10px', borderRadius: '8px', border: '1px solid rgba(107,45,62,0.2)', background: 'none', cursor: 'pointer' }}>
+                            Clear
+                          </button>
+                          <button type="button" onClick={saveSignature} style={{ flex: 1, padding: '10px', borderRadius: '8px', background: 'var(--wine)', color: '#ffffff', border: 'none', cursor: 'pointer' }}>
+                            Save Signature
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                style={{
-                  background: 'var(--wine)',
-                  color: '#ffffff',
-                  fontFamily: 'var(--font-display)',
-                  letterSpacing: '2px',
-                  textTransform: 'uppercase',
-                  border: 'none',
-                  borderRadius: '8px',
-                  padding: '14px',
-                  cursor: 'pointer',
-                  fontSize: '0.75rem',
-                  fontWeight: 'bold',
-                  boxShadow: '0 4px 15px rgba(107,45,62,0.2)'
-                }}
-              >
-                {isSubmitting ? 'Syncing Blessing...' : t('blessings.submit')}
-              </button>
-            </form>
-          </motion.div>
+                {showSuccess && (
+                  <p style={{ color: 'var(--olive-dark)', fontSize: '0.8rem', textAlign: 'center', margin: 0 }}>
+                    ✓ Your keepsake blessing has been placed on the Polaroid Wall!
+                  </p>
+                )}
 
-          {/* C. The Vintage Polaroid cascading guest wall */}
-          <div style={{ display: 'grid', gap: '30px' }}>
-            <AnimatePresence>
-              {wishes.slice(0, 30).map((wish) => (
-                <motion.div
-                  key={wish.id}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  whileHover={{ rotate: 1 }}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
                   style={{
-                    background: '#ffffff',
-                    padding: '20px 20px 30px',
-                    borderRadius: '4px',
-                    boxShadow: '0 15px 35px rgba(0,0,0,0.1), 0 0 2px rgba(212,165,116,0.2)',
-                    border: '1px solid rgba(212,165,116,0.15)',
-                    position: 'relative'
+                    background: 'var(--wine)',
+                    color: '#ffffff',
+                    fontFamily: 'var(--font-display)',
+                    letterSpacing: '2px',
+                    textTransform: 'uppercase',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '14px',
+                    cursor: 'pointer',
+                    fontSize: '0.75rem',
+                    fontWeight: 'bold',
+                    boxShadow: '0 4px 15px rgba(107,45,62,0.2)'
                   }}
                 >
-                  {/* Polaroid guest photo container */}
-                  {wish.imageUrl ? (
-                    <div style={{ height: '240px', overflow: 'hidden', background: '#e5e5e5', marginBottom: '16px', borderRadius: '2px' }}>
-                      <img src={wish.imageUrl} alt={wish.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    </div>
-                  ) : null}
+                  {isSubmitting ? 'Syncing Blessing...' : t('blessings.submit')}
+                </button>
+              </form>
+            </motion.div>
 
-                  {/* Message body */}
-                  <p style={{
-                    fontFamily: 'var(--font-serif)',
-                    fontStyle: 'italic',
-                    fontSize: '0.95rem',
-                    color: 'var(--text-body)',
-                    lineHeight: 1.6,
-                    marginBottom: '16px'
-                  }}>
-                    "{wish.message}"
-                  </p>
+            {/* Center column blessing cards (below the form) */}
+            {wishes.slice(0, 30).filter((_, i) => i % 3 === 1).map((wish, idx) => {
+              const originalIndex = idx * 3 + 1;
+              return renderBlessingCard(wish, originalIndex);
+            })}
+          </div>
 
-                  {/* Gold ink signatures */}
-                  {wish.signatureData && wish.signatureData !== 'gold_star' ? (
-                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
-                      <img src={wish.signatureData} alt="Handwritten initials" style={{ height: '50px', objectFit: 'contain' }} />
-                    </div>
-                  ) : wish.signatureData === 'gold_star' ? (
-                    <div style={{ fontFamily: 'var(--font-script)', color: 'var(--champagne-dark)', fontSize: '1.2rem', textAlign: 'center', marginBottom: '12px' }}>
-                      ✦ Gilded star ✦
-                    </div>
-                  ) : null}
-
-                  {/* Play audio blessing */}
-                  {wish.audioUrl && (
-                    <div style={{ marginBottom: '16px' }}>
-                      <audio src={wish.audioUrl} controls style={{ width: '100%', height: '32px' }} />
-                    </div>
-                  )}
-
-                  {/* Gilded polaroid footer caption */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(212,165,116,0.15)', paddingTop: '12px' }}>
-                    <h4 style={{ fontFamily: 'var(--font-script)', color: 'var(--wine)', fontSize: '1.8rem', margin: 0, fontWeight: 400 }}>
-                      {wish.name}
-                    </h4>
-                    <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.55rem', letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
-                      {wish.relation}
-                    </span>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
+          {/* RIGHT COLUMN — Blessing cards */}
+          <div className="blessing-wall-col">
+            {wishes.slice(0, 30).filter((_, i) => i % 3 === 2).map((wish, idx) => {
+              const originalIndex = idx * 3 + 2;
+              return renderBlessingCard(wish, originalIndex);
+            })}
           </div>
 
         </div>
 
+        {/* Empty state when no blessings yet */}
+        {wishes.length === 0 && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            style={{
+              textAlign: 'center',
+              fontFamily: 'var(--font-serif)',
+              fontStyle: 'italic',
+              color: 'var(--text-muted)',
+              fontSize: '1rem',
+              marginTop: '20px'
+            }}
+          >
+            Be the first to leave a blessing on the wall ✨
+          </motion.p>
+        )}
+
       </div>
+
+      {/* Responsive wall grid CSS */}
+      <style>{`
+        .blessing-wall-grid {
+          display: grid;
+          grid-template-columns: 1fr 1.15fr 1fr;
+          gap: 24px;
+          align-items: start;
+        }
+        .blessing-wall-col {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+        }
+        @media (max-width: 900px) {
+          .blessing-wall-grid {
+            grid-template-columns: 1fr 1fr !important;
+          }
+          .blessing-wall-col-center {
+            order: -1;
+            grid-column: 1 / -1;
+          }
+        }
+        @media (max-width: 580px) {
+          .blessing-wall-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .blessing-wall-col-center {
+            order: -1;
+          }
+        }
+      `}</style>
     </section>
   );
+
+  // ── Reusable blessing card renderer ──
+  function renderBlessingCard(wish: GuestWish, index: number) {
+    return (
+      <motion.div
+        key={wish.id}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0, rotate: getCardRotation(index) }}
+        whileHover={{ rotate: 0, scale: 1.03, zIndex: 10, boxShadow: '0 25px 60px rgba(107, 45, 62, 0.15)' }}
+        transition={{ duration: 0.4, delay: index * 0.05 }}
+        style={{
+          background: '#ffffff',
+          padding: '20px 20px 28px',
+          borderRadius: '6px',
+          boxShadow: '0 8px 28px rgba(0,0,0,0.08), 0 0 1px rgba(212,165,116,0.3)',
+          border: '1px solid rgba(212,165,116,0.15)',
+          position: 'relative',
+          cursor: 'default',
+          transformOrigin: 'center center',
+        }}
+      >
+        {/* Decorative pin dot at top center */}
+        <div style={{
+          position: 'absolute',
+          top: '-6px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '12px',
+          height: '12px',
+          borderRadius: '50%',
+          background: 'linear-gradient(135deg, var(--champagne), var(--wine))',
+          boxShadow: '0 2px 6px rgba(107, 45, 62, 0.3)',
+          zIndex: 2
+        }} />
+
+        {/* Polaroid guest photo container */}
+        {wish.imageUrl ? (
+          <div style={{ overflow: 'hidden', background: '#e5e5e5', marginBottom: '16px', borderRadius: '3px' }}>
+            <img src={wish.imageUrl} alt={wish.name} style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }} />
+          </div>
+        ) : null}
+
+        {/* Message body */}
+        <p style={{
+          fontFamily: 'var(--font-serif)',
+          fontStyle: 'italic',
+          fontSize: '0.9rem',
+          color: 'var(--text-body)',
+          lineHeight: 1.65,
+          marginBottom: '16px',
+          wordBreak: 'break-word',
+        }}>
+          "{wish.message}"
+        </p>
+
+        {/* Gold ink signatures */}
+        {wish.signatureData && wish.signatureData !== 'gold_star' ? (
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
+            <img src={wish.signatureData} alt="Handwritten initials" style={{ height: '50px', objectFit: 'contain' }} />
+          </div>
+        ) : wish.signatureData === 'gold_star' ? (
+          <div style={{ fontFamily: 'var(--font-script)', color: 'var(--champagne-dark)', fontSize: '1.2rem', textAlign: 'center', marginBottom: '12px' }}>
+            ✦ Gilded star ✦
+          </div>
+        ) : null}
+
+        {/* Play audio blessing */}
+        {wish.audioUrl && (
+          <div style={{ marginBottom: '16px' }}>
+            <audio src={wish.audioUrl} controls style={{ width: '100%', height: '32px' }} />
+          </div>
+        )}
+
+        {/* Gilded polaroid footer caption */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(212,165,116,0.15)', paddingTop: '12px' }}>
+          <h4 style={{ fontFamily: 'var(--font-script)', color: 'var(--wine)', fontSize: '1.6rem', margin: 0, fontWeight: 400 }}>
+            {wish.name}
+          </h4>
+          <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.55rem', letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+            {wish.relation}
+          </span>
+        </div>
+      </motion.div>
+    );
+  }
 }
+
