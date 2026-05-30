@@ -63,13 +63,43 @@ export default function VenueSection() {
   return (
     <section className="venue-section section" ref={sectionRef} id="venue">
       <div className="venue-content">
-        <motion.div
+        <motion.a
+          href="https://maps.google.com/?q=Lotus+Mahal+Coimbatore"
+          target="_blank"
+          rel="noopener noreferrer"
           className="venue-image-wrapper"
+          style={{ display: 'block', cursor: 'pointer', textDecoration: 'none' }}
           whileHover={{ scale: 1.03 }}
           transition={{ duration: 0.5 }}
         >
-          <img src="/images/venue.png" alt="Lotus Mahal, Coimbatore" loading="lazy" decoding="async" />
-        </motion.div>
+          <img src="/images/venue.png" alt="Lotus Mahal, Coimbatore" loading="lazy" decoding="async" style={{ display: 'block' }} />
+          <div style={{
+            position: 'absolute',
+            bottom: '20px',
+            right: '20px',
+            background: 'rgba(255, 255, 255, 0.25)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            padding: '10px 20px',
+            borderRadius: '30px',
+            color: '#fff',
+            fontFamily: 'var(--font-display)',
+            fontSize: '0.75rem',
+            letterSpacing: '2px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            border: '1px solid rgba(255,255,255,0.5)',
+            boxShadow: '0 8px 25px rgba(0,0,0,0.3)',
+            textTransform: 'uppercase',
+            fontWeight: 'bold'
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+            </svg>
+            Explore 360°
+          </div>
+        </motion.a>
 
         <div className="venue-info">
           <motion.div
