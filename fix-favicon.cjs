@@ -7,6 +7,6 @@ sharp('public/images/couple.jpeg')
   .resize(size, size, { position: 'top', fit: 'cover' })
   .composite([{ input: Buffer.from(circleSvg), blend: 'dest-in' }])
   .png()
-  .toFile('public/favicon-circle.png')
+  .toFile('public/images/favicon-circle.png')
   .then(() => console.log('Favicon updated from JPEG!'))
   .catch(err => console.error(err));
