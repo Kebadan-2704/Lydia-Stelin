@@ -376,22 +376,24 @@ export default function SplashScreen({ onEnter, visible }: SplashScreenProps) {
                   </div>
                 </motion.button>
                 <motion.div
-                  initial={{ opacity: 0, y: 0 }}
-                  animate={isOpening ? { opacity: 0, scale: 0.8 } : { opacity: 1, y: [0, -5, 0] }}
+                  initial={{ opacity: 0, y: 0, x: "-50%" }}
+                  animate={isOpening ? { opacity: 0, scale: 0.8, x: "-50%" } : { opacity: 1, y: [0, -5, 0], x: "-50%" }}
                   transition={{ 
-                    delay: isOpening ? 0 : 4.2, 
                     y: {
+                      delay: isOpening ? 0 : 4.2,
                       duration: 1.5,
                       repeat: isOpening ? 0 : Infinity,
                       ease: "easeInOut"
                     },
-                    opacity: { duration: 0.5 }
+                    opacity: { 
+                      delay: isOpening ? 0 : 4.2,
+                      duration: 0.5 
+                    }
                   }}
                   style={{
                     position: 'absolute',
                     top: 'calc(100% + 24px)',
                     left: '50%',
-                    transform: 'translateX(-50%)',
                     width: 'max-content',
                     fontFamily: 'var(--font-display)',
                     fontSize: '0.7rem',
