@@ -111,7 +111,7 @@ export default function VenueSection() {
 
           {show360 && (
             <iframe
-              src="https://www.google.com/maps/embed?pb=!4v1!6m8!1m7!1sCIABIhBWMPDL5-Y4JYhXm_SVAoTF!2m2!1d10.9700032!2d76.8750644!3f299.19!4f0!5f0.78"
+              src="https://www.google.com/maps/embed?pb=!4v1780146335487!6m8!1m7!1sCAoSHENJQUJJaEJXTVBETDUtWTRKWWhYbV9TVkFvVEY.!2m2!1d10.97000319045044!2d76.87506441741282!3f299.189!4f0!5f0.7820865974627469"
               width="100%"
               height="100%"
               style={{ border: 0, display: 'block', position: 'absolute', inset: 0, zIndex: 10, borderRadius: '16px' }}
