@@ -89,9 +89,7 @@ export default function RSVPSection() {
         <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1rem', color: 'var(--text-muted)', fontStyle: 'italic', marginTop: 12 }}>
           Kindly respond before July 18, 2026
         </p>
-        <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.75rem', color: 'var(--wine-light)', fontWeight: 'bold', marginTop: 16, textTransform: 'uppercase', letterSpacing: '2px' }}>
-          Please fill this out, it is mandatory
-        </p>
+
       </motion.div>
 
       <div className="rsvp-content" style={{ maxWidth: '650px', margin: '0 auto' }}>
