@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function VenueSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [show360, setShow360] = useState(false);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -63,43 +64,63 @@ export default function VenueSection() {
   return (
     <section className="venue-section section" ref={sectionRef} id="venue">
       <div className="venue-content">
-        <motion.a
-          href="https://maps.google.com/?q=Lotus+Mahal+Coimbatore"
-          target="_blank"
-          rel="noopener noreferrer"
+        <motion.div
           className="venue-image-wrapper"
-          style={{ display: 'block', cursor: 'pointer', textDecoration: 'none' }}
-          whileHover={{ scale: 1.03 }}
+          style={{ display: 'block', cursor: show360 ? 'default' : 'pointer', position: 'relative' }}
+          whileHover={!show360 ? { scale: 1.03 } : { scale: 1 }}
           transition={{ duration: 0.5 }}
+          onMouseEnter={() => setShow360(true)}
         >
-          <img src="/images/venue.png" alt="Lotus Mahal, Coimbatore" loading="lazy" decoding="async" style={{ display: 'block' }} />
-          <div style={{
-            position: 'absolute',
-            bottom: '20px',
-            right: '20px',
-            background: 'rgba(255, 255, 255, 0.25)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            padding: '10px 20px',
-            borderRadius: '30px',
-            color: '#fff',
-            fontFamily: 'var(--font-display)',
-            fontSize: '0.75rem',
-            letterSpacing: '2px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            border: '1px solid rgba(255,255,255,0.5)',
-            boxShadow: '0 8px 25px rgba(0,0,0,0.3)',
-            textTransform: 'uppercase',
-            fontWeight: 'bold'
-          }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-            </svg>
-            Explore 360°
-          </div>
-        </motion.a>
+          <img 
+            src="/images/venue.png" 
+            alt="Lotus Mahal, Coimbatore" 
+            loading="lazy" 
+            decoding="async" 
+            style={{ display: 'block', opacity: show360 ? 0 : 1, transition: 'opacity 0.5s' }} 
+          />
+          
+          {!show360 && (
+            <div style={{
+              position: 'absolute',
+              bottom: '20px',
+              right: '20px',
+              background: 'rgba(255, 255, 255, 0.25)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              padding: '10px 20px',
+              borderRadius: '30px',
+              color: '#fff',
+              fontFamily: 'var(--font-display)',
+              fontSize: '0.75rem',
+              letterSpacing: '2px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              border: '1px solid rgba(255,255,255,0.5)',
+              boxShadow: '0 8px 25px rgba(0,0,0,0.3)',
+              textTransform: 'uppercase',
+              fontWeight: 'bold',
+              pointerEvents: 'none'
+            }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+              </svg>
+              Explore 360°
+            </div>
+          )}
+
+          {show360 && (
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!4v1!6m8!1m7!1sCIABIhBWMPDL5-Y4JYhXm_SVAoTF!2m2!1d10.9700032!2d76.8750644!3f299.19!4f0!5f0.78"
+              width="100%"
+              height="100%"
+              style={{ border: 0, display: 'block', position: 'absolute', inset: 0, zIndex: 10, borderRadius: '16px' }}
+              allowFullScreen={false}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+          )}
+        </motion.div>
 
         <div className="venue-info">
           <motion.div
