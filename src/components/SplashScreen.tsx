@@ -311,7 +311,7 @@ export default function SplashScreen({ onEnter, visible }: SplashScreenProps) {
                   position: 'absolute', bottom: 0, left: 0, right: 0, height: '100%',
                   background: 'linear-gradient(135deg, #c99762 0%, #e5bb84 48%, #c58f59 100%)',
                   borderRadius: '0 0 10px 10px',
-                  clipPath: 'polygon(0 100%, 100% 100%, 100% 35%, 50% 70%, 0 35%)',
+                  clipPath: 'polygon(0 100%, 100% 100%, 100% 0, 50% 65%, 0 0)',
                   zIndex: 2,
                   boxShadow: 'inset 0 -18px 28px rgba(82, 45, 25, 0.12)',
                 }}
@@ -320,7 +320,7 @@ export default function SplashScreen({ onEnter, visible }: SplashScreenProps) {
               {/* Envelope Top Flap (Animates Open) */}
               <motion.div
                 style={{
-                  position: 'absolute', top: 0, left: 0, right: 0, height: '65%',
+                  position: 'absolute', top: 0, left: 0, right: 0, height: '66%',
                   background: 'linear-gradient(180deg, #edc28e 0%, #d6a46d 100%)',
                   clipPath: 'polygon(0 0, 100% 0, 50% 100%)',
                   transformOrigin: 'top center',
@@ -379,7 +379,7 @@ export default function SplashScreen({ onEnter, visible }: SplashScreenProps) {
                   initial={{ opacity: 0, y: 0 }}
                   animate={isOpening ? { opacity: 0, scale: 0.8 } : { opacity: 1, y: [0, -5, 0] }}
                   transition={{ 
-                    delay: isOpening ? 0 : 3.5, 
+                    delay: isOpening ? 0 : 4.2, 
                     y: {
                       duration: 1.5,
                       repeat: isOpening ? 0 : Infinity,
