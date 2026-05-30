@@ -130,7 +130,7 @@ export default function AudioPlayer() {
         height="166"
         scrolling="no"
         frameBorder="no"
-        allow="autoplay"
+        allow="autoplay; encrypted-media"
         src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/tiethenote/bethel-goodness-of-god-207-wedding-bridal-march&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false"
         style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }}
       />
