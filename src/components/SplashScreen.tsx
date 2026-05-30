@@ -380,13 +380,13 @@ export default function SplashScreen({ onEnter, visible }: SplashScreenProps) {
                   animate={isOpening ? { opacity: 0, scale: 0.8, x: "-50%" } : { opacity: 1, y: [0, -5, 0], x: "-50%" }}
                   transition={{ 
                     y: {
-                      delay: isOpening ? 0 : 3.2,
+                      delay: isOpening ? 0 : 3.5,
                       duration: 1.5,
                       repeat: isOpening ? 0 : Infinity,
                       ease: "easeInOut"
                     },
                     opacity: { 
-                      delay: isOpening ? 0 : 3.2,
+                      delay: isOpening ? 0 : 3.5,
                       duration: 0.5 
                     }
                   }}
